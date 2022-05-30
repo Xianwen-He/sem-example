@@ -1,0 +1,16 @@
+TITLE: Regression as SEM;
+DATA: FILE = GSSExMp.txt;
+VARIABLE: NAMES = prestg80 age educ female black asian hispanic othrace 
+                  napaeduc paeducM namaeduc maeducM paNOeduc maNOeduc 
+                  napapr80 papr80M namapr80 mapr80M lnsibs;
+	  USEVAR = age educ female black asian hispanic othrace 
+                  napaeduc paeducM namaeduc maeducM paNOeduc maNOeduc 
+                  napapr80 papr80M namapr80 mapr80M lnsibs;
+MODEL: 
+	educ ON paNOeduc maNOeduc napaeduc namaeduc napapr80 namapr80
+            age lnsibs female black asian hispanic othrace
+            paeducM (1) 
+ 		    maeducM (1)
+            papr80M (2)
+            mapr80M (2);
+OUTPUT: STDYX;
