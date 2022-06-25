@@ -1,0 +1,107 @@
+---
+title: "Chapter 4 Empirical Examples"
+author: "Xianwen He"
+date: '2022-06-13'
+output: 
+  prettydoc::html_pretty:
+    toc: True
+    theme: hpstr
+    highlight: github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Preparation
+
+Load packages.
+```{r, warning=F, message=F}
+library(dplyr)
+library(MIIVsem)
+```
+
+
+Load data and select the variables we need.
+```{r}
+dat <- read.table('./EducData.txt', sep=',')
+colnames(dat) <- c('id', 'prestg80', 'age', 'educ', 'happy',
+                   'health', 'class', 'health1', 'female',
+                   'black', 'asian', 'hispanic', 'othrace',
+                   'NApaeduc', 'paeducM', 'NAmaeduc', 'maeducM',
+                   'paNOeduc', 'maNOeduc', 'NApapr80', 'papr80M',
+                   'NAmapr80', 'mapr80M', 'lnsibs')
+
+# variables to use
+dat <- dat %>% select(prestg80, age, educ, female, black, asian, hispanic, othrace,
+                      NApaeduc, paeducM, NAmaeduc, maeducM, paNOeduc, maNOeduc,
+                      NApapr80, papr80M, NAmapr80, mapr80M, lnsibs)
+
+head(dat)
+```
+
+## Model 1
+
+OLS/2SLS estimates.
+
+```{r}
+model1 <- 'educ ~ paeducM + maeducM + paNOeduc + maNOeduc + NApaeduc + NAmaeduc +
+                  papr80M + mapr80M + NApapr80 + NAmapr80 +
+                  age + lnsibs + female + black + asian + hispanic + othrace 
+prestg80 ~ educ '
+miive(model = model1, data = dat)
+```
+
+## Model 2
+
+OLS/2SLS estimates.
+
+```{r}
+model2 <- 'educ ~ paeducM + maeducM + paNOeduc + maNOeduc + NApaeduc + NAmaeduc + 
+                  papr80M + mapr80M + NApapr80 + NAmapr80 + age + lnsibs + 
+                  female + black + asian + hispanic + othrace 
+           prestg80 ~ educ
+           prestg80 ~~ educ '
+miive(model=model2, data=dat)
+```
+
+## Model 3
+
+Add direct paths from all of the parental occupational variables to occupational prestige.
+
+```{r}
+model3 <- 'educ ~ paeducM + maeducM + paNOeduc + maNOeduc + NApaeduc + NAmaeduc + 
+                  papr80M + mapr80M + NApapr80 + NAmapr80 + age + lnsibs + 
+                  female + black + asian + hispanic + othrace 
+           prestg80 ~ educ + papr80M + mapr80M + age + black + hispanic + 
+                      NApapr80 + NAmapr80
+           prestg80 ~~ educ '
+miive(model=model3, data=dat)
+```
+
+## Model 4
+
+```{r}
+model4 <- 'educ ~ paeducM + maeducM + paNOeduc + maNOeduc + NApaeduc + NAmaeduc + 
+                  papr80M + mapr80M + NApapr80 + NAmapr80 + age + lnsibs + 
+                  female + black + asian + hispanic + othrace 
+           prestg80 ~ educ + papr80M + mapr80M + age + black + hispanic + 
+                      NApapr80 + NAmapr80'
+miive(model=model4, data=dat)
+```
+
+## Model 5
+
+`educ` is measured with error.
+
+```{r}
+model5 <- 'leduc =~ educ
+           leduc ~ paeducM + maeducM + paNOeduc + maNOeduc + NApaeduc + NAmaeduc + 
+                   papr80M + mapr80M + NApapr80 + NAmapr80 + age + lnsibs + 
+                   female + black + asian + hispanic + othrace 
+           prestg80 ~ leduc + papr80M + mapr80M + age + black + hispanic + 
+                      NApapr80 + NAmapr80'
+miive(model=model5, data=dat)
+```
+
+

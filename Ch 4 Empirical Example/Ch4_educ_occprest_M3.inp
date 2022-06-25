@@ -1,0 +1,44 @@
+Title: 
+This file attempts to re-create the analyses of Ken Bollen's SEM ch 4 
+simultaneous equation models of education and occupational prestige 
+
+Data: 
+  File is GSS_Ordinal_Mplus.txt; 
+
+Variable: 
+  Names are
+    id prestg80 age educ happy health class health1 female 
+    black asian hispanic othrace NApaeduc paeducM NAmaeduc 
+    maeducM paNOeduc maNOeduc NApapr80 papr80M NAmapr80 
+    mapr80M lnsibs
+    ;
+  
+  Missing are all (-999);
+
+  Usevariables are 
+    prestg80 age educ female 
+    black asian hispanic othrace NApaeduc paeducM NAmaeduc 
+    maeducM paNOeduc maNOeduc NApapr80 papr80M NAmapr80 
+    mapr80M lnsibs
+    ;
+Analysis:
+  Estimator = ML;
+
+Model: 
+! Model of Education 
+  educ ON   paeducM maeducM paNOeduc maNOeduc papr80M mapr80M 
+            age lnsibs female black asian hispanic othrace 
+            NApaeduc NAmaeduc NApapr80 NAmapr80
+            ;
+
+! Modle of Occupational Prestige 
+  prestg80 ON   educ papr80M mapr80M age black hispanic 
+                NApapr80 NAmapr80
+                ;
+
+! Residual covariance between educ and prestg80 may be non-zero
+  educ with prestg80
+
+
+Output: 
+  Standardized; 

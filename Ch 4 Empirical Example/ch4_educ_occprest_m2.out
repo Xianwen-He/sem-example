@@ -1,0 +1,469 @@
+Mplus VERSION 8.4
+MUTHEN & MUTHEN
+06/08/2022  12:55 AM
+
+INPUT INSTRUCTIONS
+
+  Title:
+  This file attempts to re-create the analyses of Ken Bollen's SEM ch 4
+  simultaneous equation models of education and occupational prestige
+
+  Data:
+    File is GSS_Ordinal_Mplus.txt;
+
+  Variable:
+    Names are
+      id prestg80 age educ happy health class health1 female
+      black asian hispanic othrace NApaeduc paeducM NAmaeduc
+      maeducM paNOeduc maNOeduc NApapr80 papr80M NAmapr80
+      mapr80M lnsibs
+      ;
+
+    Missing are all (-999);
+
+    Usevariables are
+      prestg80 age educ female
+      black asian hispanic othrace NApaeduc paeducM NAmaeduc
+      maeducM paNOeduc maNOeduc NApapr80 papr80M NAmapr80
+      mapr80M lnsibs
+      ;
+  Analysis:
+    Estimator = ML;
+
+  Model:
+  ! Model of Education
+    educ ON   paeducM maeducM paNOeduc maNOeduc papr80M mapr80M
+              age lnsibs female black asian hispanic othrace
+              NApaeduc NAmaeduc NApapr80 NAmapr80
+              ;
+
+  ! Modle of Occupational Prestige
+    prestg80 ON   educ
+                  ;
+
+  ! Residual covariance between educ and prestg80 may be non-zero
+    educ with prestg80
+
+
+  Output:
+    Standardized;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+This file attempts to re-create the analyses of Ken Bollen's SEM ch 4
+simultaneous equation models of education and occupational prestige
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                        3921
+
+Number of dependent variables                                    2
+Number of independent variables                                 17
+Number of continuous latent variables                            0
+
+Observed dependent variables
+
+  Continuous
+   PRESTG80    EDUC
+
+Observed independent variables
+   AGE         FEMALE      BLACK       ASIAN       HISPANIC    OTHRACE
+   NAPAEDUC    PAEDUCM     NAMAEDUC    MAEDUCM     PANOEDUC    MANOEDUC
+   NAPAPR80    PAPR80M     NAMAPR80    MAPR80M     LNSIBS
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  GSS_Ordinal_Mplus.txt
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              PRESTG80      EDUC          AGE           FEMALE        BLACK
+              ________      ________      ________      ________      ________
+ PRESTG80       1.000
+ EDUC           1.000         1.000
+ AGE            1.000         1.000         1.000
+ FEMALE         1.000         1.000         1.000         1.000
+ BLACK          1.000         1.000         1.000         1.000         1.000
+ ASIAN          1.000         1.000         1.000         1.000         1.000
+ HISPANIC       1.000         1.000         1.000         1.000         1.000
+ OTHRACE        1.000         1.000         1.000         1.000         1.000
+ NAPAEDUC       1.000         1.000         1.000         1.000         1.000
+ PAEDUCM        1.000         1.000         1.000         1.000         1.000
+ NAMAEDUC       1.000         1.000         1.000         1.000         1.000
+ MAEDUCM        1.000         1.000         1.000         1.000         1.000
+ PANOEDUC       1.000         1.000         1.000         1.000         1.000
+ MANOEDUC       1.000         1.000         1.000         1.000         1.000
+ NAPAPR80       1.000         1.000         1.000         1.000         1.000
+ PAPR80M        1.000         1.000         1.000         1.000         1.000
+ NAMAPR80       1.000         1.000         1.000         1.000         1.000
+ MAPR80M        1.000         1.000         1.000         1.000         1.000
+ LNSIBS         1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              ASIAN         HISPANIC      OTHRACE       NAPAEDUC      PAEDUCM
+              ________      ________      ________      ________      ________
+ ASIAN          1.000
+ HISPANIC       1.000         1.000
+ OTHRACE        1.000         1.000         1.000
+ NAPAEDUC       1.000         1.000         1.000         1.000
+ PAEDUCM        1.000         1.000         1.000         1.000         1.000
+ NAMAEDUC       1.000         1.000         1.000         1.000         1.000
+ MAEDUCM        1.000         1.000         1.000         1.000         1.000
+ PANOEDUC       1.000         1.000         1.000         1.000         1.000
+ MANOEDUC       1.000         1.000         1.000         1.000         1.000
+ NAPAPR80       1.000         1.000         1.000         1.000         1.000
+ PAPR80M        1.000         1.000         1.000         1.000         1.000
+ NAMAPR80       1.000         1.000         1.000         1.000         1.000
+ MAPR80M        1.000         1.000         1.000         1.000         1.000
+ LNSIBS         1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              NAMAEDUC      MAEDUCM       PANOEDUC      MANOEDUC      NAPAPR80
+              ________      ________      ________      ________      ________
+ NAMAEDUC       1.000
+ MAEDUCM        1.000         1.000
+ PANOEDUC       1.000         1.000         1.000
+ MANOEDUC       1.000         1.000         1.000         1.000
+ NAPAPR80       1.000         1.000         1.000         1.000         1.000
+ PAPR80M        1.000         1.000         1.000         1.000         1.000
+ NAMAPR80       1.000         1.000         1.000         1.000         1.000
+ MAPR80M        1.000         1.000         1.000         1.000         1.000
+ LNSIBS         1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              PAPR80M       NAMAPR80      MAPR80M       LNSIBS
+              ________      ________      ________      ________
+ PAPR80M        1.000
+ NAMAPR80       1.000         1.000
+ MAPR80M        1.000         1.000         1.000
+ LNSIBS         1.000         1.000         1.000         1.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     PRESTG80             44.818       0.325      17.000    0.38%      32.000     40.000     44.000
+            3921.000     195.167      -0.649      86.000    0.26%      48.000     59.000
+     EDUC                 13.868      -0.341       0.000    0.15%      12.000     12.000     14.000
+            3921.000       8.722       1.172      20.000    3.47%      14.000     16.000
+     AGE                  48.792       0.258      18.000    0.08%      33.000     43.000     48.000
+            3921.000     265.682      -0.716      89.000    0.59%      53.000     63.000
+     FEMALE                0.555      -0.223       0.000   44.45%       0.000      0.000      1.000
+            3921.000       0.247      -1.950       1.000   55.55%       1.000      1.000
+     BLACK                 0.127       2.244       0.000   87.32%       0.000      0.000      0.000
+            3921.000       0.111       3.034       1.000   12.68%       0.000      0.000
+     ASIAN                 0.024       6.260       0.000   97.63%       0.000      0.000      0.000
+            3921.000       0.023      37.186       1.000    2.37%       0.000      0.000
+     HISPANIC              0.101       2.644       0.000   89.88%       0.000      0.000      0.000
+            3921.000       0.091       4.989       1.000   10.12%       0.000      0.000
+     OTHRACE               0.013       8.596       0.000   98.70%       0.000      0.000      0.000
+            3921.000       0.013      71.896       1.000    1.30%       0.000      0.000
+     NAPAEDUC              0.178       1.686       0.000   82.22%       0.000      0.000      0.000
+            3921.000       0.146       0.842       1.000   17.78%       0.000      0.000
+     PAEDUCM              11.586      -0.503       0.000    1.71%       9.000     11.521     12.000
+            3921.000      14.282       1.012      20.000    2.27%      12.000     14.000
+     NAMAEDUC              0.040       4.709       0.000   96.02%       0.000      0.000      0.000
+            3921.000       0.038      20.176       1.000    3.98%       0.000      0.000
+     MAEDUCM              11.650      -0.796       0.000    1.81%       9.000     12.000     12.000
+            3921.000      12.404       1.542      20.000    0.94%      12.000     14.000
+     PANOEDUC              0.017       7.453       0.000   98.29%       0.000      0.000      0.000
+            3921.000       0.017      53.540       1.000    1.71%       0.000      0.000
+     MANOEDUC              0.018       7.228       0.000   98.19%       0.000      0.000      0.000
+            3921.000       0.018      50.244       1.000    1.81%       0.000      0.000
+     NAPAPR80              0.176       1.704       0.000   82.43%       0.000      0.000      0.000
+            3921.000       0.145       0.904       1.000   17.57%       0.000      0.000
+     PAPR80M              44.546       0.731      19.000    0.13%      35.000     42.000     43.889
+            3921.000     144.010       0.930      86.000    0.87%      44.000     51.000
+     NAMAPR80              0.311       0.816       0.000   68.89%       0.000      0.000      0.000
+            3921.000       0.214      -1.334       1.000   31.11%       0.000      1.000
+     MAPR80M              42.077       0.592      17.000    0.74%      32.000     41.544     41.544
+            3921.000     139.188       0.383      86.000    0.23%      41.544     49.000
+     LNSIBS                1.316       0.071       0.000    4.62%       0.693      1.099      1.386
+            3921.000       0.355      -0.127       3.738    0.03%       1.386      1.792
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       23
+
+Loglikelihood
+
+          H0 Value                      -24441.083
+          H1 Value                      -24369.291
+
+Information Criteria
+
+          Akaike (AIC)                   48928.166
+          Bayesian (BIC)                 49072.470
+          Sample-Size Adjusted BIC       48999.387
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                            143.583
+          Degrees of Freedom                    16
+          P-Value                           0.0000
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.045
+          90 Percent C.I.                    0.038  0.052
+          Probability RMSEA <= .05           0.876
+
+CFI/TLI
+
+          CFI                                0.952
+          TLI                                0.895
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                           2687.274
+          Degrees of Freedom                    35
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.028
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ EDUC     ON
+    PAEDUCM            0.127      0.016      7.957      0.000
+    MAEDUCM            0.163      0.018      9.093      0.000
+    PANOEDUC          -1.057      0.395     -2.679      0.007
+    MANOEDUC           0.349      0.385      0.906      0.365
+    PAPR80M            0.025      0.004      6.249      0.000
+    MAPR80M            0.009      0.004      2.212      0.027
+    AGE                0.015      0.003      5.357      0.000
+    LNSIBS            -0.660      0.072     -9.197      0.000
+    FEMALE             0.079      0.080      0.984      0.325
+    BLACK             -0.158      0.129     -1.227      0.220
+    ASIAN              1.527      0.263      5.812      0.000
+    HISPANIC          -0.817      0.151     -5.412      0.000
+    OTHRACE           -0.743      0.352     -2.109      0.035
+    NAPAEDUC          -2.385      0.906     -2.633      0.008
+    NAMAEDUC          -1.166      0.221     -5.277      0.000
+    NAPAPR80           1.714      0.909      1.886      0.059
+    NAMAPR80          -0.003      0.098     -0.030      0.976
+
+ PRESTG80 ON
+    EDUC               2.915      0.129     22.684      0.000
+
+ EDUC     WITH
+    PRESTG80          -4.098      0.969     -4.232      0.000
+
+ Intercepts
+    PRESTG80           4.395      1.792      2.452      0.014
+    EDUC               9.367      0.320     29.232      0.000
+
+ Residual Variances
+    PRESTG80         144.950      3.439     42.150      0.000
+    EDUC               6.255      0.141     44.245      0.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ EDUC     ON
+    PAEDUCM            0.163      0.020      7.996      0.000
+    MAEDUCM            0.194      0.021      9.151      0.000
+    PANOEDUC          -0.046      0.017     -2.680      0.007
+    MANOEDUC           0.016      0.017      0.906      0.365
+    PAPR80M            0.103      0.016      6.265      0.000
+    MAPR80M            0.034      0.015      2.213      0.027
+    AGE                0.083      0.015      5.366      0.000
+    LNSIBS            -0.133      0.014     -9.248      0.000
+    FEMALE             0.013      0.013      0.984      0.325
+    BLACK             -0.018      0.015     -1.227      0.220
+    ASIAN              0.079      0.014      5.823      0.000
+    HISPANIC          -0.083      0.015     -5.422      0.000
+    OTHRACE           -0.028      0.014     -2.109      0.035
+    NAPAEDUC          -0.309      0.117     -2.634      0.008
+    NAMAEDUC          -0.077      0.015     -5.285      0.000
+    NAPAPR80           0.221      0.117      1.887      0.059
+    NAMAPR80           0.000      0.015     -0.030      0.976
+
+ PRESTG80 ON
+    EDUC               0.616      0.025     24.250      0.000
+
+ EDUC     WITH
+    PRESTG80          -0.136      0.031     -4.321      0.000
+
+ Intercepts
+    PRESTG80           0.315      0.130      2.428      0.015
+    EDUC               3.172      0.122     26.051      0.000
+
+ Residual Variances
+    PRESTG80           0.743      0.013     55.864      0.000
+    EDUC               0.717      0.012     58.784      0.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ EDUC     ON
+    PAEDUCM            0.043      0.005      8.018      0.000
+    MAEDUCM            0.055      0.006      9.183      0.000
+    PANOEDUC          -0.358      0.134     -2.681      0.007
+    MANOEDUC           0.118      0.130      0.906      0.365
+    PAPR80M            0.009      0.001      6.278      0.000
+    MAPR80M            0.003      0.001      2.213      0.027
+    AGE                0.005      0.001      5.375      0.000
+    LNSIBS            -0.224      0.024     -9.291      0.000
+    FEMALE             0.027      0.027      0.984      0.325
+    BLACK             -0.054      0.044     -1.227      0.220
+    ASIAN              0.517      0.089      5.835      0.000
+    HISPANIC          -0.277      0.051     -5.431      0.000
+    OTHRACE           -0.252      0.119     -2.110      0.035
+    NAPAEDUC          -0.808      0.306     -2.635      0.008
+    NAMAEDUC          -0.395      0.075     -5.294      0.000
+    NAPAPR80           0.580      0.307      1.887      0.059
+    NAMAPR80          -0.001      0.033     -0.030      0.976
+
+ PRESTG80 ON
+    EDUC               0.616      0.025     24.250      0.000
+
+ EDUC     WITH
+    PRESTG80          -0.136      0.031     -4.321      0.000
+
+ Intercepts
+    PRESTG80           0.315      0.130      2.428      0.015
+    EDUC               3.172      0.122     26.051      0.000
+
+ Residual Variances
+    PRESTG80           0.743      0.013     55.864      0.000
+    EDUC               0.717      0.012     58.784      0.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ EDUC     ON
+    PAEDUCM            0.127      0.016      7.957      0.000
+    MAEDUCM            0.163      0.018      9.093      0.000
+    PANOEDUC          -1.057      0.395     -2.679      0.007
+    MANOEDUC           0.349      0.385      0.906      0.365
+    PAPR80M            0.025      0.004      6.249      0.000
+    MAPR80M            0.009      0.004      2.212      0.027
+    AGE                0.015      0.003      5.357      0.000
+    LNSIBS            -0.660      0.072     -9.197      0.000
+    FEMALE             0.079      0.080      0.984      0.325
+    BLACK             -0.158      0.129     -1.227      0.220
+    ASIAN              1.527      0.263      5.812      0.000
+    HISPANIC          -0.817      0.151     -5.412      0.000
+    OTHRACE           -0.743      0.352     -2.109      0.035
+    NAPAEDUC          -2.385      0.906     -2.633      0.008
+    NAMAEDUC          -1.166      0.221     -5.277      0.000
+    NAPAPR80           1.714      0.909      1.886      0.059
+    NAMAPR80          -0.003      0.098     -0.030      0.976
+
+ PRESTG80 ON
+    EDUC               2.915      0.129     22.684      0.000
+
+ EDUC     WITH
+    PRESTG80          -4.098      0.969     -4.232      0.000
+
+ Intercepts
+    PRESTG80           4.395      1.792      2.452      0.014
+    EDUC               9.367      0.320     29.232      0.000
+
+ Residual Variances
+    PRESTG80         144.950      3.439     42.150      0.000
+    EDUC               6.255      0.141     44.245      0.000
+
+
+R-SQUARE
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    PRESTG80           0.257      0.013     19.353      0.000
+    EDUC               0.283      0.012     23.193      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.168E-06
+       (ratio of smallest to largest eigenvalue)
+
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    \\client\d$\documents\sem\ch4\ch 4 empirical example\ch4_educ_occprest_m2.dgm
+
+     Beginning Time:  00:55:31
+        Ending Time:  00:55:40
+       Elapsed Time:  00:00:09
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2019 Muthen & Muthen
