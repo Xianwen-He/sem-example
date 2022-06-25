@@ -1,0 +1,32 @@
+Title: 
+Behavioral Intentions CFA of Moral and Belonging
+
+Data:
+  File is cohesion_clean.txt;
+
+Variable:
+  Names are 
+     morale1 morale2 morale3 belong1 belong2 belong3 classyr female
+     fratsor athletic othorg religact polviews race gpa loyal1 loyal2 loyal3;
+  Usevariables are 
+     morale1 morale2 morale3    !Morale latent variable 
+     belong1 belong2 belong3    !Belonging latent variable
+     ;
+  Missing are all (-9999) ; 
+
+Analysis: 
+  Estimator = ML; 
+
+Model: 
+! Latent Variables 
+  Morale BY morale1@1 morale2 morale3; 
+  Belong BY belong1@1 belong2 belong3; 
+! Latent Covariances
+  Morale WITH Belong; 
+! Latent Means
+  [Morale Belong]; 
+! Observed intercepts constrained = 0 for scaling variable
+  [morale1@0 belong1@0];
+
+Output: 
+  stdyx tech1; 

@@ -1,0 +1,443 @@
+Mplus VERSION 8.4
+MUTHEN & MUTHEN
+06/23/2022  11:17 AM
+
+INPUT INSTRUCTIONS
+
+  Title:
+  Behavioral Intentions CFA of Moral and Belonging
+
+  Data:
+    File is cohesion_clean.txt;
+
+  Variable:
+    Names are
+       morale1 morale2 morale3 belong1 belong2 belong3 classyr female
+       fratsor athletic othorg religact polviews race gpa loyal1 loyal2 loyal3;
+    Usevariables are
+       morale1 morale2 morale3    !Morale latent variable
+       belong1 belong2 belong3    !Belonging latent variable
+       ;
+    Missing are all (-9999) ;
+
+  Analysis:
+    Estimator = ML;
+
+  Model:
+  ! Latent Variables
+    Morale BY morale1@1 morale2 morale3;
+    Belong BY belong1@1 belong2 belong3;
+  ! Latent Covariances
+    Morale WITH Belong;
+  ! Latent Means
+    [Morale Belong];
+  ! Observed intercepts constrained = 0 for scaling variable
+    [morale1@0 belong1@0];
+
+  Output:
+    stdyx tech1;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+Behavioral Intentions CFA of Moral and Belonging
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         106
+
+Number of dependent variables                                    6
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+
+Observed dependent variables
+
+  Continuous
+   MORALE1     MORALE2     MORALE3     BELONG1     BELONG2     BELONG3
+
+Continuous latent variables
+   MORALE      BELONG
+
+
+Estimator                                                       ML
+Information matrix                                        OBSERVED
+Maximum number of iterations                                  1000
+Convergence criterion                                    0.500D-04
+Maximum number of steepest descent iterations                   20
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+
+Input data file(s)
+  cohesion_clean.txt
+
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              MORALE1       MORALE2       MORALE3       BELONG1       BELONG2
+              ________      ________      ________      ________      ________
+ MORALE1        1.000
+ MORALE2        1.000         1.000
+ MORALE3        1.000         1.000         1.000
+ BELONG1        1.000         1.000         1.000         1.000
+ BELONG2        1.000         1.000         1.000         1.000         1.000
+ BELONG3        1.000         1.000         1.000         1.000         1.000
+
+
+           Covariance Coverage
+              BELONG3
+              ________
+ BELONG3        1.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     MORALE1               8.217      -1.672       1.000    2.83%       7.000      8.000      9.000
+             106.000       4.000       3.143      10.000   32.08%       9.000     10.000
+     MORALE2               8.868      -1.776       3.000    2.83%       8.000      9.000     10.000
+             106.000       2.737       3.063      10.000   54.72%      10.000     10.000
+     MORALE3               8.802      -1.855       2.000    1.89%       8.000      9.000      9.500
+             106.000       2.932       3.568      10.000   50.00%      10.000     10.000
+     BELONG1               7.962      -1.390       0.000    0.94%       6.000      8.000      8.500
+             106.000       4.300       2.094      10.000   26.42%       9.000     10.000
+     BELONG2               7.764      -1.376       0.000    0.94%       6.000      8.000      8.000
+             106.000       5.331       1.591      10.000   25.47%       9.000     10.000
+     BELONG3               8.009      -1.794       0.000    2.83%       7.000      8.000      8.500
+             106.000       4.273       4.259      10.000   25.47%       9.000     10.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       19
+
+Loglikelihood
+
+          H0 Value                       -1080.664
+          H1 Value                       -1075.625
+
+Information Criteria
+
+          Akaike (AIC)                    2199.327
+          Bayesian (BIC)                  2249.932
+          Sample-Size Adjusted BIC        2189.904
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit
+
+          Value                             10.077
+          Degrees of Freedom                     8
+          P-Value                           0.2597
+
+RMSEA (Root Mean Square Error Of Approximation)
+
+          Estimate                           0.049
+          90 Percent C.I.                    0.000  0.130
+          Probability RMSEA <= .05           0.440
+
+CFI/TLI
+
+          CFI                                0.996
+          TLI                                0.992
+
+Chi-Square Test of Model Fit for the Baseline Model
+
+          Value                            507.347
+          Degrees of Freedom                    15
+          P-Value                           0.0000
+
+SRMR (Standardized Root Mean Square Residual)
+
+          Value                              0.017
+
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ MORALE   BY
+    MORALE1            1.000      0.000    999.000    999.000
+    MORALE2            0.874      0.074     11.879      0.000
+    MORALE3            0.860      0.079     10.857      0.000
+
+ BELONG   BY
+    BELONG1            1.000      0.000    999.000    999.000
+    BELONG2            0.927      0.091     10.131      0.000
+    BELONG3            0.892      0.078     11.435      0.000
+
+ MORALE   WITH
+    BELONG             3.065      0.498      6.159      0.000
+
+ Means
+    MORALE             8.217      0.194     42.299      0.000
+    BELONG             7.962      0.201     39.530      0.000
+
+ Intercepts
+    MORALE1            0.000      0.000    999.000    999.000
+    MORALE2            1.687      0.616      2.740      0.006
+    MORALE3            1.732      0.663      2.611      0.009
+    BELONG1            0.000      0.000    999.000    999.000
+    BELONG2            0.384      0.747      0.514      0.607
+    BELONG3            0.906      0.636      1.425      0.154
+
+ Variances
+    MORALE             2.858      0.539      5.302      0.000
+    BELONG             3.600      0.599      6.006      0.000
+
+ Residual Variances
+    MORALE1            1.142      0.195      5.866      0.000
+    MORALE2            0.554      0.113      4.891      0.000
+    MORALE3            0.816      0.141      5.777      0.000
+    BELONG1            0.700      0.170      4.114      0.000
+    BELONG2            2.238      0.345      6.478      0.000
+    BELONG3            1.408      0.232      6.057      0.000
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+ MORALE   BY
+    MORALE1            0.845      0.033     25.967      0.000
+    MORALE2            0.893      0.026     34.208      0.000
+    MORALE3            0.849      0.032     26.480      0.000
+
+ BELONG   BY
+    BELONG1            0.915      0.024     38.393      0.000
+    BELONG2            0.762      0.045     16.869      0.000
+    BELONG3            0.819      0.037     22.177      0.000
+
+ MORALE   WITH
+    BELONG             0.955      0.025     38.669      0.000
+
+ Means
+    MORALE             4.860      0.473     10.286      0.000
+    BELONG             4.196      0.365     11.493      0.000
+
+ Intercepts
+    MORALE1            0.000      0.000    999.000    999.000
+    MORALE2            1.019      0.400      2.547      0.011
+    MORALE3            1.011      0.420      2.405      0.016
+    BELONG1            0.000      0.000    999.000    999.000
+    BELONG2            0.166      0.330      0.504      0.614
+    BELONG3            0.438      0.324      1.353      0.176
+
+ Variances
+    MORALE             1.000      0.000    999.000    999.000
+    BELONG             1.000      0.000    999.000    999.000
+
+ Residual Variances
+    MORALE1            0.285      0.055      5.188      0.000
+    MORALE2            0.202      0.047      4.342      0.000
+    MORALE3            0.278      0.055      5.108      0.000
+    BELONG1            0.163      0.044      3.732      0.000
+    BELONG2            0.420      0.069      6.102      0.000
+    BELONG3            0.329      0.060      5.448      0.000
+
+
+R-SQUARE
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    MORALE1            0.715      0.055     12.984      0.000
+    MORALE2            0.798      0.047     17.104      0.000
+    MORALE3            0.722      0.055     13.240      0.000
+    BELONG1            0.837      0.044     19.197      0.000
+    BELONG2            0.580      0.069      8.435      0.000
+    BELONG3            0.671      0.060     11.089      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.115E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION
+
+
+           NU
+              MORALE1       MORALE2       MORALE3       BELONG1       BELONG2
+              ________      ________      ________      ________      ________
+                  0             1             2             0             3
+
+
+           NU
+              BELONG3
+              ________
+                  4
+
+
+           LAMBDA
+              MORALE        BELONG
+              ________      ________
+ MORALE1            0             0
+ MORALE2            5             0
+ MORALE3            6             0
+ BELONG1            0             0
+ BELONG2            0             7
+ BELONG3            0             8
+
+
+           THETA
+              MORALE1       MORALE2       MORALE3       BELONG1       BELONG2
+              ________      ________      ________      ________      ________
+ MORALE1            9
+ MORALE2            0            10
+ MORALE3            0             0            11
+ BELONG1            0             0             0            12
+ BELONG2            0             0             0             0            13
+ BELONG3            0             0             0             0             0
+
+
+           THETA
+              BELONG3
+              ________
+ BELONG3           14
+
+
+           ALPHA
+              MORALE        BELONG
+              ________      ________
+                 15            16
+
+
+           BETA
+              MORALE        BELONG
+              ________      ________
+ MORALE             0             0
+ BELONG             0             0
+
+
+           PSI
+              MORALE        BELONG
+              ________      ________
+ MORALE            17
+ BELONG            18            19
+
+
+     STARTING VALUES
+
+
+           NU
+              MORALE1       MORALE2       MORALE3       BELONG1       BELONG2
+              ________      ________      ________      ________      ________
+                0.000         8.868         8.802         0.000         7.764
+
+
+           NU
+              BELONG3
+              ________
+                8.009
+
+
+           LAMBDA
+              MORALE        BELONG
+              ________      ________
+ MORALE1        1.000         0.000
+ MORALE2        0.931         0.000
+ MORALE3        0.880         0.000
+ BELONG1        0.000         1.000
+ BELONG2        0.000         0.956
+ BELONG3        0.000         0.897
+
+
+           THETA
+              MORALE1       MORALE2       MORALE3       BELONG1       BELONG2
+              ________      ________      ________      ________      ________
+ MORALE1        2.000
+ MORALE2        0.000         1.369
+ MORALE3        0.000         0.000         1.466
+ BELONG1        0.000         0.000         0.000         2.150
+ BELONG2        0.000         0.000         0.000         0.000         2.666
+ BELONG3        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              BELONG3
+              ________
+ BELONG3        2.137
+
+
+           ALPHA
+              MORALE        BELONG
+              ________      ________
+                0.000         0.000
+
+
+           BETA
+              MORALE        BELONG
+              ________      ________
+ MORALE         0.000         0.000
+ BELONG         0.000         0.000
+
+
+           PSI
+              MORALE        BELONG
+              ________      ________
+ MORALE         0.050
+ BELONG         0.000         0.050
+
+
+DIAGRAM INFORMATION
+
+  Use View Diagram under the Diagram menu in the Mplus Editor to view the diagram.
+  If running Mplus from the Mplus Diagrammer, the diagram opens automatically.
+
+  Diagram output
+    \\client\d$\documents\sem\ch5\ch 5 empirical example\cohesion_ml.dgm
+
+     Beginning Time:  11:17:41
+        Ending Time:  11:17:44
+       Elapsed Time:  00:00:03
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2019 Muthen & Muthen

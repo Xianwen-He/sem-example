@@ -1,0 +1,64 @@
+---
+title: "Chapter 5 Empirical Examples"
+author: "Xianwen He"
+date: '2022-06-22'
+output: 
+  prettydoc::html_pretty:
+    toc: True
+    theme: hpstr
+    highlight: github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Preparation
+
+Load packages.
+```{r, warning=F, message=F}
+library(dplyr)
+library(MIIVsem)
+```
+
+Read in data and select the variables to use.
+```{r}
+dat <- read.csv('./cohesion_clean.csv')
+dat <- dat %>% select(belong1, belong2, belong3,
+                      morale1, morale2, morale3)
+
+head(dat)
+```
+
+## Confirmatory Factor Analysis
+
+Covariance matrix.
+```{r}
+cov(dat)
+```
+
+Means.
+```{r}
+colMeans(dat)
+```
+
+
+Standard deviations.
+```{r}
+apply(dat, 2, sd)
+```
+
+
+2SLS estimates.
+```{r}
+mod <- 'morale =~ 1*morale1 + morale2 + morale3
+        belong =~ 1*belong1 + belong2 + belong3
+        morale ~ 1
+        belong ~ 1
+        morale ~~ belong'
+
+miive(model = mod, data = dat)
+```
+
+
+
