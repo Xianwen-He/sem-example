@@ -4,7 +4,7 @@ This file attempts to reproduce the perceived cohesion example in Chapter 5.
 
 ### Data
 
-The raw dataset is transported from SAS. Here we only need the final data file coehsion_clean.csv and cohesion_clean.txt. The former is for R and the latter is for Mplus.
+The raw dataset is transported from SAS. Here we only need the final data files coehsion_clean.csv and cohesion_clean.txt. The former is for R and the latter is for Mplus.
 
 ### Confirmatory Factor Analysis
 
