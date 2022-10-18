@@ -1,0 +1,675 @@
+---
+title: "Chapter 6 Empirical Examples"
+author: "Xianwen He"
+date: '2022-07-12'
+output: 
+  prettydoc::html_pretty:
+    toc: True
+    theme: hpstr
+    highlight: github
+---
+
+## Reisenzein's example (1986)
+
+This section aims to reproduce to empirical examples in Chapter 6, Section 6.7. Please install `MIIVsem` and `lavaan` using `install.packages('<package.name>')` if you haven't done so.
+
+Load the packages.
+```{r, warning=F, message=F}
+library(MIIVsem)
+library(lavaan)
+```
+
+Read in the data.
+```{r}
+reisenzein1986 <- readRDS("reisenzein1986a.RDS")
+colnames(reisenzein1986) <- c(
+"Z1", "Z2", "Z3", "Z4", "Z5", "Z6",
+"Z7", "Z8", "Z9", "Z10", "Z11", "Z12",
+"Z13"
+)
+```
+
+### The original model ($M_1$)
+
+Specify the original model ($M_1$).
+```{r}
+m1.reisenzein <- '
+L1 =~ Z1 + Z2 + Z3
+L2 =~ Z4 + Z5 + Z6
+L3 =~ Z7 + Z8 + Z9
+L4 =~ Z10 + Z11 + Z12
+L4 ~ L2 + L3
+L2 ~ L1
+L3 ~ L1
+L1 ~ Z13
+'
+```
+
+ML fit measures using `lavaan`.
+```{r}
+fitmeasures(sem(m1.reisenzein, data = reisenzein1986))
+```
+
+2SLS estimates using `MIIVsem`.
+```{r}
+miive(m1.reisenzein, reisenzein1986, sarg.adjust= "holm")
+```
+
+### $M_2$
+
+Specify the model. Compared to $M_1$, there is an direct impact from $Z_{13}$('Stimulus') to $L_4$('Help'), and there are tow pairs of empirically determined correlated errors ($Z_3$ & $Z_4$, $Z_4$ & $Z_{12}$).
+
+```{r}
+m2.reisenzein <- '
+  L1 =~ Z1 + Z2 + Z3
+  L2 =~ Z4 + Z5 + Z6
+  L3 =~ Z7 + Z8 + Z9
+  L4 =~ Z10 + Z11 + Z12
+ 
+  L4 ~ L2 + L3 + Z13
+  L2 ~ L1
+  L3 ~ L1
+  L1 ~ Z13
+ 
+  Z3 ~~ Z4
+  Z4 ~~ Z12
+'
+```
+
+ML fit measures for $M_2$.
+```{r}
+fitmeasures(sem(m2.reisenzein, data = reisenzein1986))
+```
+
+
+### The cross-loading model ($M_3$)
+
+Specify the model. Add a direct path from $L_4$('Help') to $Z_6$ ('Concern').
+```{r}
+m3.reisenzein <- '
+L1 =~ Z1 + Z2 + Z3
+L2 =~ Z4 + Z5 + Z6
+L3 =~ Z7 + Z8 + Z9
+L4 =~ Z10 + Z11 + Z12 + Z6
+L4 ~ L2 + L3
+L2 ~ L1
+L3 ~ L1
+L1 ~ Z13
+'
+```
+
+ML fit measures.
+```{r}
+fitmeasures(sem(m3.reisenzein, data = reisenzein1986))
+```
+
+2SLS estimates for $M_3$.
+```{r}
+miive(m3.reisenzein, reisenzein1986, sarg.adjust= "holm")
+```
+
+## Higher-order factor analysis
+
+This section aims to reproduce the empirical examples in Chapter 6, Section 6.8.1.
+
+Read in the data from the study by Colom et al. (2004).
+```{r}
+colom.n <- 198
+lower.corr <- '
+1
+0.21	1
+0.24	0.11	1
+0.34	0.14	0.07	1
+0.42	0.12	0.09	0.40	1
+0.41	0.19	0.16	0.50  0.49	1
+0.19	0.19	0.17	0.18	0.20  0.26	1
+0.19	0.22	0.09	0.13	0.04	0.22	0.43	1
+0.32	0.17	0.04	0.06	0.16	0.29	0.21	0.39	1
+0.30  0.14	0.26	0.20  0.13	0.26	0.28	0.20  0.25	1
+0.35	0.23	0.30  0.19	0.06	0.21	0.20  0.32	0.35	0.39	1
+0.32	0.29	0.12	0.10  0.17	0.24	0.18	0.42	0.33	0.30  0.49	1
+'
+mean <- '26.3  30.1  8.9  39.6  37.8  38.3  35  35.2  22.9  15.7  22.4  23.9'
+std <- '10.3  9.6  8.6  10.9  9.6  10.5  6.9  6.7  6.5  3.4  10.6  4.6'
+labels <- c('z1', 'z2', 'z3', 'z5', 'z6', 'z4',
+            'z8', 'z7', 'z9', 'z11', 'z10', 'z12')
+
+colom.corr <- getCov(lower.corr, names=labels)
+colom.mean <- as.numeric(strsplit(mean, '  ')[[1]]); names(colom.mean) <- labels
+colom.std <- as.numeric(strsplit(std, '  ')[[1]]); names(colom.std) <- labels
+
+# sigma_i * sigma_j * rho_ij = Cov(X_i, X_j)
+colom.cov <- (colom.std %*% t(colom.std)) * colom.corr
+dimnames(colom.cov) <- list(labels,labels)
+```
+
+Define the model.
+```{r}
+colom.mod <- '
+L1 =~ L2 + L3 + L4 + L5
+# measurements
+L2 =~ z1 + z2 + z3
+L3 =~ z4 + z5 + z6
+L4 =~ z7 + z8 + z9
+L5 =~ z10 + z11 + z12
+'
+```
+
+ML estimates by `lavaan`.
+```{r}
+colom.fit <- sem(colom.mod,
+    sample.cov = colom.cov, sample.mean = colom.mean,
+    sample.nobs = colom.n)
+# test statistics
+fitmeasures(colom.fit)
+# estimates
+summary(colom.fit, standardized = TRUE)
+```
+
+Specify two MIIVs for each observed variable and applies `MIIVsem` for 2SLS estimates. The script for MIIV selection can be found in the folder supplement.
+```{r}
+colom.miiv <- '
+z4 ~ z9 + z10
+z7 ~ z6 + z10
+z10 ~ z6 + z9
+z2 ~ z3 + z6
+z3 ~ z2 + z6
+z5 ~ z6 + z1
+z6 ~ z5 + z9
+z8 ~ z9 + z12
+z9 ~ z8 + z12
+z11 ~ z12 + z3
+z12 ~ z11 + z9
+'
+
+miive(model = colom.mod, instruments = colom.miiv,
+      sample.cov = colom.cov, sample.mean = colom.mean,
+      sample.nobs = colom.n)
+```
+
+
+
+## Longitudinal model
+
+This section aims to reproduce the empirical examples in Chapter 6, Section 6.8.2. 
+
+Read in the NLSY data.
+```{r, warning=F, message=F}
+dat.long <- read.table('./halaby2.dat', header=TRUE, sep=" ", dec=",")
+```
+
+### Fixed Effects Model ($M_1$)
+
+Fit a FEM without lagged effects.
+```{r}
+# FEM without lagged effects
+m1.fem<-'
+#measurement model
+alpha=~1*lnwg80+1*lnwg81+1*lnwg82+1*lnwg83+1*lnwg84+1*lnwg85+1*lnwg86+1*lnwg87
+lnwg80~1
+lnwg81~1
+lnwg82~1
+lnwg83~1
+lnwg84~1
+lnwg85~1
+lnwg86~1
+lnwg87~1
+#lnwg80~~v*lnwg80
+#lnwg81~~v*lnwg81
+#lnwg82~~v*lnwg82
+#lnwg83~~v*lnwg83
+#lnwg84~~v*lnwg84
+#lnwg85~~v*lnwg85
+#lnwg86~~v*lnwg86
+#lnwg87~~v*lnwg87
+#structural model
+lnwg80~a1*SEI.10_80+a2*union80
+lnwg81~a1*SEI.10_81+a2*union81
+lnwg82~a1*SEI.10_82+a2*union82
+lnwg83~a1*SEI.10_83+a2*union83
+lnwg84~a1*SEI.10_84+a2*union84
+lnwg85~a1*SEI.10_85+a2*union85
+lnwg86~a1*SEI.10_86+a2*union86
+lnwg87~a1*SEI.10_87+a2*union87
+
+alpha~0
+alpha~~SEI.10_80+SEI.10_81+SEI.10_82+SEI.10_83+SEI.10_84+SEI.10_85+SEI.10_86+SEI.10_87+union80+union81+union82+union83+union84+union85+union86+union87
+SEI.10_80~~SEI.10_81+SEI.10_82+SEI.10_83+SEI.10_84+SEI.10_85+SEI.10_86+SEI.10_87+union80+union81+union82+union83+union84+union85+union86+union87
+SEI.10_81~~SEI.10_82+SEI.10_83+SEI.10_84+SEI.10_85+SEI.10_86+SEI.10_87+union80+union81+union82+union83+union84+union85+union86+union87
+SEI.10_82~~SEI.10_83+SEI.10_84+SEI.10_85+SEI.10_86+SEI.10_87+union80+union81+union82+union83+union84+union85+union86+union87
+SEI.10_83~~SEI.10_84+SEI.10_85+SEI.10_86+SEI.10_87+union80+union81+union82+union83+union84+union85+union86+union87
+SEI.10_84~~SEI.10_85+SEI.10_86+SEI.10_87+union80+union81+union82+union83+union84+union85+union86+union87
+SEI.10_85~~SEI.10_86+SEI.10_87+union80+union81+union82+union83+union84+union85+union86+union87
+SEI.10_86~~SEI.10_87+union80+union81+union82+union83+union84+union85+union86+union87
+SEI.10_87~~union80+union81+union82+union83+union84+union85+union86+union87
+union80~~union81+union82+union83+union84+union85+union86+union87
+union81~~union82+union83+union84+union85+union86+union87
+union82~~union83+union84+union85+union86+union87
+union83~~union84+union85+union86+union87
+union84~~union85+union86+union87
+union85~~union86+union87
+union86~~union87'
+
+fit.1.fem <- sem(m1.fem, data=dat.long, fixed.x=FALSE)
+# summary(fit.1.fem, fit.measure=TRUE)
+fitmeasures(fit.1.fem)
+```
+
+### Random Effects Model ($M_2$)
+
+Fit a REM without lagged effects.
+```{r}
+m2.rem<-'
+#measurement model
+alpha=~1*lnwg80+1*lnwg81+1*lnwg82+1*lnwg83+1*lnwg84+1*lnwg85+1*lnwg86+1*lnwg87
+lnwg80~1
+lnwg81~1
+lnwg82~1
+lnwg83~1
+lnwg84~1
+lnwg85~1
+lnwg86~1
+lnwg87~1
+#lnwg80~~v*lnwg80
+#lnwg81~~v*lnwg81
+#lnwg82~~v*lnwg82
+#lnwg83~~v*lnwg83
+#lnwg84~~v*lnwg84
+#lnwg85~~v*lnwg85
+#lnwg86~~v*lnwg86
+#lnwg87~~v*lnwg87
+#structural model
+lnwg80~a1*SEI.10_80+a2*union80+a3*educ+a4*black
+lnwg81~a1*SEI.10_81+a2*union81+a3*educ+a4*black
+lnwg82~a1*SEI.10_82+a2*union82+a3*educ+a4*black
+lnwg83~a1*SEI.10_83+a2*union83+a3*educ+a4*black
+lnwg84~a1*SEI.10_84+a2*union84+a3*educ+a4*black
+lnwg85~a1*SEI.10_85+a2*union85+a3*educ+a4*black
+lnwg86~a1*SEI.10_86+a2*union86+a3*educ+a4*black
+lnwg87~a1*SEI.10_87+a2*union87+a3*educ+a4*black
+
+alpha~0
+'
+
+fit.2.rem<-sem(m2.rem, data=dat.long, fixed.x=FALSE)
+# summary(fit.2.rem, fit.measure=TRUE)
+fitmeasures(fit.2.rem)
+```
+
+### Latent Growth Curve Model ($M_3$)
+
+Fit a linear growth model.
+```{r}
+m3.gr_lin<-'
+#measurement model
+alpha=~1*lnwg80+1*lnwg81+1*lnwg82+1*lnwg83+1*lnwg84+1*lnwg85+1*lnwg86+1*lnwg87
+beta=~0*lnwg80+1*lnwg81+2*lnwg82+3*lnwg83+4*lnwg84+5*lnwg85+6*lnwg86+7*lnwg87
+
+lnwg80~0
+lnwg81~0
+lnwg82~0
+lnwg83~0
+lnwg84~0
+lnwg85~0
+lnwg86~0
+lnwg87~0
+lnwg80~~lnwg80
+lnwg81~~lnwg81
+lnwg82~~lnwg82
+lnwg83~~lnwg83
+lnwg84~~lnwg84
+lnwg85~~lnwg85
+lnwg86~~lnwg86
+lnwg87~~lnwg87
+#structural model
+lnwg80~a1*SEI.10_80+a2*union80
+lnwg81~a1*SEI.10_81+a2*union81
+lnwg82~a1*SEI.10_82+a2*union82
+lnwg83~a1*SEI.10_83+a2*union83
+lnwg84~a1*SEI.10_84+a2*union84
+lnwg85~a1*SEI.10_85+a2*union85
+lnwg86~a1*SEI.10_86+a2*union86
+lnwg87~a1*SEI.10_87+a2*union87
+
+alpha~1
+beta~1
+alpha~educ+black
+beta~educ+black
+alpha~~beta'
+
+fit.3.gr_lin<-sem(m3.gr_lin, data=dat.long)
+# summary(fit.3.gr_lin, fit.measure=TRUE)
+fitmeasures(fit.3.gr_lin)
+```
+
+### Autoregressive Model ($M_4$)
+
+Fit a straight auto-regressive model.
+```{r}
+m4.ar<-'
+#measurement model
+lnwg80~1
+lnwg81~1
+lnwg82~1
+lnwg83~1
+lnwg84~1
+lnwg85~1
+lnwg86~1
+lnwg87~1
+lnwg80~~lnwg80
+lnwg81~~lnwg81
+lnwg82~~lnwg82
+lnwg83~~lnwg83
+lnwg84~~lnwg84
+lnwg85~~lnwg85
+lnwg86~~lnwg86
+lnwg87~~lnwg87
+#structural model
+lnwg80~SEI.10_80+union80+a3*educ+a4*black
+lnwg81~rho*lnwg80+a1*SEI.10_81+a2*union81+a3*educ+a4*black
+lnwg82~rho*lnwg81+a1*SEI.10_82+a2*union82+a3*educ+a4*black
+lnwg83~rho*lnwg82+a1*SEI.10_83+a2*union83+a3*educ+a4*black
+lnwg84~rho*lnwg83+a1*SEI.10_84+a2*union84+a3*educ+a4*black
+lnwg85~rho*lnwg84+a1*SEI.10_85+a2*union85+a3*educ+a4*black
+lnwg86~rho*lnwg85+a1*SEI.10_86+a2*union86+a3*educ+a4*black
+lnwg87~rho*lnwg86+a1*SEI.10_87+a2*union87+a3*educ+a4*black
+'
+
+fit.4.ar<-sem(m4.ar,data=dat.long)
+# summary(fit.4.ar, fit.measure=TRUE)
+fitmeasures(fit.4.ar)
+```
+
+### LV-ALT1 ($M_5$)
+
+Fit a classic ALT model with linear growth and constant auto-regressive parameters.
+```{r}
+m5.lv_lin<-'
+#measurement model
+eta_1=~lnwg80
+eta_2=~lnwg81
+eta_3=~lnwg82
+eta_4=~lnwg83
+eta_5=~lnwg84
+eta_6=~lnwg85
+eta_7=~lnwg86
+eta_8=~lnwg87
+alpha=~1*eta_2+1*eta_3+1*eta_4+1*eta_5+1*eta_6+1*eta_7+1*eta_8
+beta=~1*eta_2+2*eta_3+3*eta_4+4*eta_5+5*eta_6+6*eta_7+7*eta_8
+
+lnwg80~0
+lnwg81~0
+lnwg82~0
+lnwg83~0
+lnwg84~0
+lnwg85~0
+lnwg86~0
+lnwg87~0
+lnwg80~~v1*lnwg80
+lnwg81~~v1*lnwg81
+lnwg82~~lnwg82
+lnwg83~~lnwg83
+lnwg84~~lnwg84
+lnwg85~~lnwg85
+lnwg86~~lnwg86
+lnwg87~~lnwg87
+
+#structural model
+eta_2~rho2*eta_1+a1*SEI.10_81+a2*union81+a3*educ+a4*black
+eta_3~rho3*eta_2+a1*SEI.10_82+a2*union82+a3*educ+a4*black
+eta_4~rho4*eta_3+a1*SEI.10_83+a2*union83+a3*educ+a4*black
+eta_5~rho5*eta_4+a1*SEI.10_84+a2*union84+a3*educ+a4*black
+eta_6~rho6*eta_5+a1*SEI.10_85+a2*union85+a3*educ+a4*black
+eta_7~rho7*eta_6+a1*SEI.10_86+a2*union86+a3*educ+a4*black
+eta_8~rho8*eta_7+a1*SEI.10_87+a2*union87+a3*educ+a4*black
+
+alpha~1
+beta~1
+eta_1~1
+eta_1~~eta_1
+eta_2~~v*eta_2
+eta_3~~v*eta_3
+eta_4~~v*eta_4
+eta_5~~v*eta_5
+eta_6~~v*eta_6
+eta_7~~v*eta_7
+eta_8~~v*eta_8
+alpha~~0*black+0*educ
+beta~~0*black+0*educ
+alpha~~eta_1+beta+ SEI.10_81+SEI.10_82+SEI.10_83+SEI.10_84+SEI.10_85+SEI.10_86+SEI.10_87+union81+union82+union83+union84+union85+union86+union87
+beta~~eta_1+SEI.10_81+SEI.10_82+SEI.10_83+SEI.10_84+SEI.10_85+SEI.10_86+SEI.10_87+union81+union82+union83+union84+union85+union86+union87
+eta_1~~SEI.10_81+SEI.10_82+SEI.10_83+SEI.10_84+SEI.10_85+SEI.10_86+SEI.10_87+union81+union82+union83+union84+union85+union86+union87+educ+black
+SEI.10_81~~SEI.10_82+SEI.10_83+SEI.10_84+SEI.10_85+SEI.10_86+SEI.10_87+union81+union82+union83+union84+union85+union86+union87+educ+black
+SEI.10_82~~SEI.10_83+SEI.10_84+SEI.10_85+SEI.10_86+SEI.10_87+union81+union82+union83+union84+union85+union86+union87+educ+black
+SEI.10_83~~SEI.10_84+SEI.10_85+SEI.10_86+SEI.10_87+union81+union82+union83+union84+union85+union86+union87+educ+black
+SEI.10_84~~SEI.10_85+SEI.10_86+SEI.10_87+union81+union82+union83+union84+union85+union86+union87+educ+black
+SEI.10_85~~SEI.10_86+SEI.10_87+union81+union82+union83+union84+union85+union86+union87+educ+black
+SEI.10_86~~SEI.10_87+union81+union82+union83+union84+union85+union86+union87+educ+black
+SEI.10_87~~union81+union82+union83+union84+union85+union86+union87+educ+black
+union81~~union82+union83+union84+union85+union86+union87+educ+black
+union82~~union83+union84+union85+union86+union87+educ+black
+union83~~union84+union85+union86+union87+educ+black
+union84~~union85+union86+union87+educ+black
+union85~~union86+union87+educ+black
+union86~~union87+educ+black
+union87~~educ+black
+educ~~black
+'
+
+fit.5.lv_lin <- sem(m5.lv_lin, data=dat.long, fixed.x=FALSE)
+```
+
+
+ML fit measures.
+```{r}
+fitmeasures(fit.5.lv_lin)
+```
+
+ML estimates.
+```{r}
+summary(fit.5.lv_lin, fit.measure=FALSE)
+```
+
+### LV-ALT2 ($M_6$ )
+
+Fit a LV-ALT with linear growth and unrestricted auto-regressive parameters.
+```{r}
+m6.lv_lin_new<-'
+#measurement model
+eta_1=~lnwg80
+eta_2=~lnwg81
+eta_3=~lnwg82
+eta_4=~lnwg83
+eta_5=~lnwg84
+eta_6=~lnwg85
+eta_7=~lnwg86
+eta_8=~lnwg87
+alpha=~1*eta_2+1*eta_3+1*eta_4+1*eta_5+1*eta_6+1*eta_7+1*eta_8
+beta=~1*eta_2+2*eta_3+3*eta_4+4*eta_5+5*eta_6+6*eta_7+7*eta_8
+
+lnwg80~0
+lnwg81~0
+lnwg82~0
+lnwg83~0
+lnwg84~0
+lnwg85~0
+lnwg86~0
+lnwg87~0
+lnwg80~~var*lnwg80
+lnwg81~~var*lnwg81
+lnwg82~~lnwg82
+lnwg83~~lnwg83
+lnwg84~~lnwg84
+lnwg85~~lnwg85
+lnwg86~~lnwg86
+lnwg87~~lnwg87
+#structural model
+eta_2~rho*eta_1+a1*SEI.10_81+a2*union81
+eta_3~rho*eta_2+a1*SEI.10_82+a2*union82
+eta_4~rho*eta_3+a1*SEI.10_83+a2*union83
+eta_5~rho*eta_4+a1*SEI.10_84+a2*union84
+eta_6~rho*eta_5+a1*SEI.10_85+a2*union85
+eta_7~rho*eta_6+a1*SEI.10_86+a2*union86
+eta_8~rho*eta_7+a1*SEI.10_87+a2*union87
+
+alpha~1
+beta~1
+eta_1~1
+alpha~educ+black
+beta~educ+black
+eta_1~SEI.10_80+union80+educ+black
+eta_1~~eta_1
+eta_2~~v*eta_2
+eta_3~~v*eta_3
+eta_4~~v*eta_4
+eta_5~~v*eta_5
+eta_6~~v*eta_6
+eta_7~~v*eta_7
+eta_8~~v*eta_8
+alpha~~eta_1+beta
+beta~~eta_1
+'
+
+fit.6.lv_lin_new<-sem(m6.lv_lin_new, data=dat.long, fixed.x=FALSE)
+```
+
+
+ML fit measures.
+```{r}
+fitmeasures(fit.6.lv_lin_new)
+```
+
+ML estimates.
+```{r}
+summary(fit.6.lv_lin_new, fit.measure=FALSE)
+```
+
+
+## Bayes SEM
+
+This section aims to reproduce the empirical examples in Chapter 6, Section 6.9.
+
+Load the package.
+```{r, warning=F, message=F}
+library("blavaan")
+```
+
+Read in the data.
+```{r}
+dat.bollen <- MIIVsem::bollen1989a
+# rename the variables.
+colnames(dat.bollen) <- c("Z4", "Z5", "Z6", 
+                          "Z7", "Z8", "Z9", 
+                          "Z10", "Z11", 
+                          "Z1", "Z2", "Z3" )
+```
+
+Summarize the dataset.
+```{r}
+dat.summ <- t(apply(dat.bollen, 2,
+                    function(x){
+                      return (c(quantile(x), mean(x), sd(x)))
+                      }
+                    ))
+dat.summ <- data.frame(rbind(dat.summ[9:11, ], dat.summ[1:8, ]))
+colnames(dat.summ) <- c('Min', '25%', 'Median', '75%', 'Max', 'Mean', 'Sd.')
+dat.summ
+```
+
+
+
+### Estimation
+
+Specify the model.
+```{r}
+mod.indem <- '
+  L1 =~ Z1 + Z2 + Z3 
+  L2 =~ Z4 + Z5 + Z6  + Z7  
+  L3 =~ Z8 + Z9 + Z10 + Z11    
+
+  L2  ~ L1  
+  L3  ~ L1 + L2
+ 
+  L1 ~ 1
+  Z1 ~ 0
+  L2 ~ 1
+  Z4 ~ 0
+  L3 ~ 1
+  Z8 ~ 0
+  
+  Z4 ~~ Z8
+  Z5 ~~ Z7 + Z9
+  Z6 ~~ Z10
+  Z7 ~~ Z11
+  Z9 ~~ Z11 '
+```
+
+
+MIIV-2SLS estimation with `MIIVsem`.
+```{r}
+miive(mod.indem, dat.bollen)
+```
+
+ML estimation with `lavaan`.
+```{r}
+Lavfit <- sem(mod.indem, data = dat.bollen)
+summary(Lavfit, standardized = TRUE)
+```
+
+Bayesian estimation with `blavaan`. 
+
+**Note**: This chunk takes a long time to run. Thus I leave it here simply for display and read in an already generated Bayesian SEM object for the subsequent analysis. Please check the Rmarkdown for details.
+
+```{r, eval=F}
+# two chains with 50,000 iterations for each
+Bfit <- bsem(mod.indem, data=dat.bollen, bcontrol = list(cores = 2L),
+             n.chains = 2, burnin = 50000, sample = 5000)
+```
+
+```{r, echo=F}
+# This is the line to read in an already generated Bayesian object. 
+# You can find the script for saving this checkpoint in the folder supplement.
+# Please use your own model to update the RData file if necessary.
+# Note that the following outputs may be different
+# because of the randomness of the Bayesian estimates.
+load('./Bfit.RData')
+```
+
+
+Summarize the Bayesian model. Note that results are unlikely to be exactly the same with those in book because of the randomness.
+```{r}
+# Huge difference from the results in the draft
+summary(Bfit)
+```
+
+### Fit measures
+
+Fit a null model to calculate CFI, TLI, and NFI.
+
+**Note**: This chunk also takes a long time to run. I implement the same strategy as above. Please check the Rmarkdown for details.
+```{r, eval=F}
+# null model
+null.model <- c(paste0("Z", 1:11, " ~~ Z", 1:11), paste0("Z", 1:11, " ~ 1"))
+fit0 <- bsem(null.model, data = dat.bollen, bcontrol = list(cores = 2L),
+             n.chains = 2, burnin = 50000, sample = 5000)
+```
+
+```{r, echo=FALSE}
+# This is the line to read in an already generated null model.
+# Please use your own model to update fit0.RData.
+load('fit0.RData')
+```
+
+Fit measure for the Bayesian SEM.
+```{r, warning=F}
+B.ml <- blavFitIndices(Bfit, baseline.model = fit0)
+summary(B.ml)
+```
+
+### Trace plots
+
+Trace plots for factor loadings and regression parameters.
+```{r}
+plot(Bfit, c(3:4, 10:11))
+```
+
