@@ -8,6 +8,10 @@ This file attempts to reproduce the perceived cohesion example in Chapter 7.
 * Model: Capital Punish Estimation.do & Capital Punish Diagnostics Outliers.do fit the model with & without outliers, respectively,
 * Others: MahD.ado is a self-defined method to meaturing Mahalanobis Distance. 
 
+**Simulation**
+
+ContToCategDataGeneration.do is going to reproduce the simulation experiments in Section 7.4.
+
 **Roos Model**
 
 * Data: roos.csv
