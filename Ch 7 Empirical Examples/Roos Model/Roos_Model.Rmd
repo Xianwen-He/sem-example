@@ -11,7 +11,7 @@ output:
 
 ## Confirmatory Factor Analysis
 
-### Factor Loeading
+### Factor Loading
 
 ```{r}
 roos <- read.csv("./roos.csv")
@@ -45,6 +45,24 @@ fit.lav <- lavaan::sem(
   estimator = "WLSMV"
 )
 lavaan::summary(fit.lav, fit.measures = TRUE, rsquare = TRUE)
+```
+
+Calculate the proportion in the lowest category.
+```{r}
+threshold <- fit.lav@SampleStats@th[[1]]
+threshold.label <- gsub('\\|t1', '', fit.lav@SampleStats@th.names[[1]])
+
+num <- length(threshold)
+portion <- sapply(1:num, function(i){
+  tsd <- threshold[i]
+  name <- threshold.label[i]
+  clmn <- scale(roos[[name]])
+  
+  return(mean(clmn <= tsd))
+})
+names(portion) <- threshold.label
+
+portion
 ```
 
 Estimate using MIIVsem.
