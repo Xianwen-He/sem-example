@@ -45,14 +45,10 @@ probit Z2 Z1star
 *scatter plots
 scatter Z2star Z1star, xline(0) yline(0) name(G1, replace)
 *change thresholds for 0 cell
-*gen Z2b=0 if Z2star <= 1.75
-*replace Z2b=1 if Z2star > 1.75
-*gen Z1b=0 if Z1star <= -1
-*replace Z1b=1 if Z1star > -1
 scatter Z2star Z1star, xline(-1) yline(1.25) name(G3, replace)
 scatter Z2str Z1str, xline(-.75) yline(.75) name(G4, replace)
 
 sample 10
 scatter Z2star Z1star, xline(-0.5) yline(1.25) name(G2, replace)
-* G2: sample another 50 observations?
+
 
