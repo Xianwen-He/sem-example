@@ -184,22 +184,18 @@ Variables</a></li>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>roos <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;./roos.csv&quot;</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>CFAmodel <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="st">PFact  =~ lasers + hotcore + earthsun + electron + radioact +  condrift </span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="st">PFact  =~ hotcore + earthsun + electron + radioact + lasers + condrift </span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">YEW    =~ bigbangrev + evolvedrev + condrift    </span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">LSFact =~ viruses + boyorgrl + expdesgn + odds1 + odds2  </span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">LSFact =~ boyorgrl + viruses + expdesgn + odds1 + odds2   </span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">odds1 ~~ odds2</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st"> </span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="st"># PFact  ~ race_other + race_black + female + married + age + educ</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st"># YEW    ~ race_other + race_black + female + married + age + educ</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st"># LSFact ~ race_other + race_black + female + married + age + educ</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>ordered  <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;expdesgn&quot;</span>, <span class="st">&quot;odds1&quot;</span>, <span class="st">&quot;odds2&quot;</span>, <span class="st">&quot;earthsun&quot;</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;viruses&quot;</span>, <span class="st">&quot;condrift&quot;</span>,<span class="st">&quot;radioact&quot;</span>,</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;hotcore&quot;</span>, <span class="st">&quot;boyorgrl&quot;</span>, <span class="st">&quot;electron&quot;</span>, </span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;lasers&quot;</span>,<span class="st">&quot;evolvedrev&quot;</span>, <span class="st">&quot;bigbangrev&quot;</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>ordered  <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;expdesgn&quot;</span>, <span class="st">&quot;odds1&quot;</span>, <span class="st">&quot;odds2&quot;</span>, <span class="st">&quot;earthsun&quot;</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;viruses&quot;</span>, <span class="st">&quot;condrift&quot;</span>,<span class="st">&quot;radioact&quot;</span>,</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;hotcore&quot;</span>, <span class="st">&quot;boyorgrl&quot;</span>, <span class="st">&quot;electron&quot;</span>, </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;lasers&quot;</span>,<span class="st">&quot;evolvedrev&quot;</span>, <span class="st">&quot;bigbangrev&quot;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>Estimate using Lavaan with MLSMV.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># lavaan</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fit.lav <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(</span>
@@ -208,8 +204,8 @@ Variables</a></li>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">ordered =</span> ordered,</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">&quot;WLSMV&quot;</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>lavaan<span class="sc">::</span><span class="fu">summary</span>(fit.lav, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">rsquare =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## lavaan 0.6.14 ended normally after 32 iterations
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>(summ.lav <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">summary</span>(fit.lav, <span class="at">fit.measures =</span> <span class="cn">TRUE</span>, <span class="at">rsquare =</span> <span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>## lavaan 0.6.14 ended normally after 50 iterations
 ## 
 ##   Estimator                                       DWLS
 ##   Optimization method                           NLMINB
@@ -268,45 +264,45 @@ Variables</a></li>
 ## Latent Variables:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)
 ##   PFact =~                                            
-##     lasers            1.000                           
-##     hotcore           0.766    0.070   10.977    0.000
-##     earthsun          0.860    0.062   13.933    0.000
-##     electron          0.769    0.061   12.528    0.000
-##     radioact          0.861    0.061   14.102    0.000
-##     condrift          0.481    0.095    5.070    0.000
+##     hotcore           1.000                           
+##     earthsun          1.123    0.105   10.715    0.000
+##     electron          1.003    0.101    9.936    0.000
+##     radioact          1.124    0.103   10.888    0.000
+##     lasers            1.305    0.119   10.977    0.000
+##     condrift          0.628    0.128    4.917    0.000
 ##   YEW =~                                              
 ##     bigbangrev        1.000                           
 ##     evolvedrev        0.982    0.110    8.943    0.000
 ##     condrift         -0.433    0.106   -4.097    0.000
 ##   LSFact =~                                           
-##     viruses           1.000                           
-##     boyorgrl          0.466    0.079    5.917    0.000
-##     expdesgn          0.887    0.089    9.921    0.000
-##     odds1             0.854    0.103    8.280    0.000
-##     odds2             0.574    0.092    6.230    0.000
+##     boyorgrl          1.000                           
+##     viruses           2.144    0.362    5.917    0.000
+##     expdesgn          1.901    0.346    5.493    0.000
+##     odds1             1.831    0.351    5.213    0.000
+##     odds2             1.231    0.272    4.522    0.000
 ## 
 ## Covariances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)
 ##  .odds1 ~~                                            
 ##    .odds2             0.227    0.064    3.536    0.000
 ##   PFact ~~                                            
-##     YEW              -0.331    0.039   -8.393    0.000
-##     LSFact            0.415    0.036   11.401    0.000
+##     YEW              -0.254    0.034   -7.359    0.000
+##     LSFact            0.148    0.029    5.168    0.000
 ##   YEW ~~                                              
-##     LSFact           -0.203    0.038   -5.312    0.000
+##     LSFact           -0.095    0.024   -3.997    0.000
 ## 
 ## Intercepts:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)
-##    .lasers            0.000                           
 ##    .hotcore           0.000                           
 ##    .earthsun          0.000                           
 ##    .electron          0.000                           
 ##    .radioact          0.000                           
+##    .lasers            0.000                           
 ##    .condrift          0.000                           
 ##    .bigbangrev        0.000                           
 ##    .evolvedrev        0.000                           
-##    .viruses           0.000                           
 ##    .boyorgrl          0.000                           
+##    .viruses           0.000                           
 ##    .expdesgn          0.000                           
 ##    .odds1             0.000                           
 ##    .odds2             0.000                           
@@ -316,92 +312,116 @@ Variables</a></li>
 ## 
 ## Thresholds:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)
-##     lasers|t1         0.162    0.043    3.770    0.000
 ##     hotcore|t1       -0.809    0.048  -16.813    0.000
 ##     earthsun|t1      -0.051    0.043   -1.189    0.234
 ##     electron|t1      -0.062    0.043   -1.461    0.144
 ##     radioact|t1      -0.483    0.044  -10.860    0.000
+##     lasers|t1         0.162    0.043    3.770    0.000
 ##     condrift|t1      -0.842    0.049  -17.315    0.000
 ##     bigbangrev|t1    -0.513    0.045  -11.462    0.000
 ##     evolvedrev|t1    -0.221    0.043   -5.127    0.000
-##     viruses|t1       -0.088    0.043   -2.073    0.038
 ##     boyorgrl|t1      -0.354    0.044   -8.104    0.000
+##     viruses|t1       -0.088    0.043   -2.073    0.038
 ##     expdesgn|t1       0.232    0.043    5.398    0.000
 ##     odds1|t1         -1.102    0.054  -20.589    0.000
 ##     odds2|t1         -0.777    0.048  -16.307    0.000
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)
-##    .lasers            0.409                           
 ##    .hotcore           0.653                           
 ##    .earthsun          0.563                           
 ##    .electron          0.651                           
 ##    .radioact          0.562                           
+##    .lasers            0.409                           
 ##    .condrift          0.603                           
 ##    .bigbangrev        0.347                           
 ##    .evolvedrev        0.371                           
-##    .viruses           0.535                           
 ##    .boyorgrl          0.899                           
+##    .viruses           0.535                           
 ##    .expdesgn          0.635                           
 ##    .odds1             0.661                           
 ##    .odds2             0.847                           
-##     PFact             0.591    0.052   11.272    0.000
+##     PFact             0.347    0.054    6.454    0.000
 ##     YEW               0.653    0.085    7.680    0.000
-##     LSFact            0.465    0.059    7.870    0.000
+##     LSFact            0.101    0.033    3.047    0.002
 ## 
 ## Scales y*:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)
-##     lasers            1.000                           
 ##     hotcore           1.000                           
 ##     earthsun          1.000                           
 ##     electron          1.000                           
 ##     radioact          1.000                           
+##     lasers            1.000                           
 ##     condrift          1.000                           
 ##     bigbangrev        1.000                           
 ##     evolvedrev        1.000                           
-##     viruses           1.000                           
 ##     boyorgrl          1.000                           
+##     viruses           1.000                           
 ##     expdesgn          1.000                           
 ##     odds1             1.000                           
 ##     odds2             1.000                           
 ## 
 ## R-Square:
 ##                    Estimate
-##     lasers            0.591
 ##     hotcore           0.347
 ##     earthsun          0.437
 ##     electron          0.349
 ##     radioact          0.438
+##     lasers            0.591
 ##     condrift          0.397
 ##     bigbangrev        0.653
 ##     evolvedrev        0.629
-##     viruses           0.465
 ##     boyorgrl          0.101
+##     viruses           0.465
 ##     expdesgn          0.365
 ##     odds1             0.339
 ##     odds2             0.153</code></pre>
+<p>SE for <span class="math inline">\(R^2\)</span>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>rsq.mat <span class="ot">&lt;-</span> summ.lav<span class="sc">$</span>pe <span class="sc">%&gt;%</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(op<span class="sc">==</span><span class="st">&#39;r2&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(lhs, est) <span class="sc">%&gt;%</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">SE =</span> <span class="dv">2</span><span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">nrow</span>(roos))<span class="sc">*</span>est<span class="sc">*</span>(<span class="dv">1</span><span class="sc">-</span>est<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(rsq.mat) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;variable&#39;</span>, <span class="st">&#39;R2&#39;</span>, <span class="st">&#39;SE for R2&#39;</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>rsq.mat</span></code></pre></div>
+<pre><code>##      variable        R2   SE for R2
+## 1     hotcore 0.3465802 0.020737205
+## 2    earthsun 0.4367441 0.024034448
+## 3    electron 0.3488480 0.020835484
+## 4    radioact 0.4377933 0.024064872
+## 5      lasers 0.5906602 0.026152971
+## 6    condrift 0.3969381 0.022739649
+## 7  bigbangrev 0.6526273 0.025477557
+## 8  evolvedrev 0.6289707 0.025850792
+## 9    boyorgrl 0.1010962 0.006804482
+## 10    viruses 0.4649232 0.024781874
+## 11   expdesgn 0.3653995 0.021530297
+## 12      odds1 0.3387802 0.020393657
+## 13      odds2 0.1530732 0.010165388</code></pre>
 <p>Calculate the proportion in the lowest category.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> fit.lav<span class="sc">@</span>SampleStats<span class="sc">@</span>th[[<span class="dv">1</span>]]</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>threshold.label <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&#39;</span><span class="sc">\\</span><span class="st">|t1&#39;</span>, <span class="st">&#39;&#39;</span>, fit.lav<span class="sc">@</span>SampleStats<span class="sc">@</span>th.names[[<span class="dv">1</span>]])</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>num <span class="ot">&lt;-</span> <span class="fu">length</span>(threshold)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>portion <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>num, <span class="cf">function</span>(i){</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  tsd <span class="ot">&lt;-</span> threshold[i]</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> threshold.label[i]</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  clmn <span class="ot">&lt;-</span> <span class="fu">scale</span>(roos[[name]])</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">mean</span>(clmn <span class="sc">&lt;=</span> tsd))</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(portion) <span class="ot">&lt;-</span> threshold.label</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>portion</span></code></pre></div>
-<pre><code>##     lasers    hotcore   earthsun   electron   radioact   condrift bigbangrev 
-##  0.5641618  0.2092486  0.4797688  0.4751445  0.3144509  0.2000000  0.3040462 
-## evolvedrev    viruses   boyorgrl   expdesgn      odds1      odds2 
-##  0.4127168  0.4647399  0.3618497  0.5919075  0.1352601  0.2184971</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> fit.lav<span class="sc">@</span>SampleStats<span class="sc">@</span>th[[<span class="dv">1</span>]]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>threshold.label <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&#39;</span><span class="sc">\\</span><span class="st">|t1&#39;</span>, <span class="st">&#39;&#39;</span>, fit.lav<span class="sc">@</span>SampleStats<span class="sc">@</span>th.names[[<span class="dv">1</span>]])</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>num <span class="ot">&lt;-</span> <span class="fu">length</span>(threshold)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>portion <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>num, <span class="cf">function</span>(i){</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  tsd <span class="ot">&lt;-</span> threshold[i]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  name <span class="ot">&lt;-</span> threshold.label[i]</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  clmn <span class="ot">&lt;-</span> <span class="fu">scale</span>(roos[[name]])</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">mean</span>(clmn <span class="sc">&lt;=</span> tsd))</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(portion) <span class="ot">&lt;-</span> threshold.label</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>portion</span></code></pre></div>
+<pre><code>##    hotcore   earthsun   electron   radioact     lasers   condrift bigbangrev 
+##  0.2092486  0.4797688  0.4751445  0.3144509  0.5641618  0.2000000  0.3040462 
+## evolvedrev   boyorgrl    viruses   expdesgn      odds1      odds2 
+##  0.4127168  0.3618497  0.4647399  0.5919075  0.1352601  0.2184971</code></pre>
 <p>Estimate using MIIVsem.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fit.miiv <span class="ot">&lt;-</span> MIIVsem<span class="sc">::</span><span class="fu">miive</span>(CFAmodel, roos, <span class="at">var.cov=</span><span class="cn">TRUE</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>fit.miiv</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit.miiv <span class="ot">&lt;-</span> MIIVsem<span class="sc">::</span><span class="fu">miive</span>(CFAmodel, roos, <span class="at">var.cov=</span><span class="cn">TRUE</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fit.miiv</span></code></pre></div>
 <pre><code>## MIIVsem (0.5.8) results 
 ## 
 ## Number of observations                                                    865
@@ -417,98 +437,98 @@ Variables</a></li>
 ## STRUCTURAL COEFFICIENTS:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Sargan   df   P(Chi)
 ##   LSFact =~                                                                  
-##     viruses           1.000                                                  
-##     boyorgrl          0.361    0.079    4.571    0.000   14.636   10    0.146
-##     expdesgn          0.782    0.088    8.853    0.000    6.316   10    0.788
-##     odds1             0.423    0.058    7.263    0.000    6.042    9    0.736
-##     odds2             0.373    0.068    5.518    0.000   11.334    9    0.253
+##     boyorgrl          1.000                                                  
+##     viruses           1.628    0.294    5.544    0.000   21.522   10    0.018
+##     expdesgn          1.178    0.194    6.058    0.000   20.568   10    0.024
+##     odds1             0.552    0.117    4.719    0.000   25.586    9    0.002
+##     odds2             0.514    0.130    3.959    0.000   19.388    9    0.022
 ##   PFact =~                                                                   
-##     lasers            1.000                                                  
-##     hotcore           0.543    0.057    9.457    0.000    9.017   10    0.530
-##     earthsun          0.856    0.075   11.467    0.000    4.056   10    0.945
-##     electron          0.741    0.072   10.328    0.000    8.852   10    0.546
-##     radioact          0.758    0.068   11.119    0.000   18.243   10    0.051
-##     condrift          0.366    0.073    5.020    0.000   24.200    8    0.002
+##     hotcore           1.000                                                  
+##     earthsun          1.449    0.158    9.197    0.000   10.715   10    0.380
+##     electron          1.254    0.147    8.558    0.000   11.267   10    0.337
+##     radioact          1.282    0.142    9.005    0.000   15.067   10    0.130
+##     lasers            1.672    0.173    9.673    0.000    9.433   10    0.492
+##     condrift          0.656    0.138    4.767    0.000   15.856    8    0.044
 ##   YEW =~                                                                     
 ##     bigbangrev        1.000                                                  
-##     condrift         -0.267    0.088   -3.025    0.002   24.200    8    0.002
+##     condrift         -0.254    0.095   -2.679    0.007   15.856    8    0.044
 ##     evolvedrev        1.074    0.128    8.375    0.000    6.237   10    0.795
 ## 
 ## INTERCEPTS:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   
 ##     bigbangrev        0.000                              
-##     boyorgrl          0.445    0.045    9.822    0.000   
-##     condrift          0.827    0.087    9.494    0.000   
-##     earthsun          0.147    0.037    3.962    0.000   
-##     electron          0.202    0.036    5.619    0.000   
+##     boyorgrl          0.000                              
+##     condrift          0.458    0.161    2.839    0.005   
+##     earthsun         -0.626    0.127   -4.937    0.000   
+##     electron         -0.467    0.118   -3.960    0.000   
 ##     evolvedrev       -0.160    0.091   -1.757    0.079   
-##     expdesgn         -0.010    0.051   -0.203    0.840   
-##     hotcore           0.554    0.029   19.202    0.000   
-##     lasers            0.000                              
-##     odds1             0.638    0.034   18.949    0.000   
-##     odds2             0.582    0.039   14.893    0.000   
-##     radioact          0.355    0.034   10.360    0.000   
-##     viruses           0.000                              
+##     expdesgn         -0.343    0.126   -2.718    0.007   
+##     hotcore           0.000                              
+##     lasers           -0.886    0.139   -6.382    0.000   
+##     odds1             0.512    0.076    6.742    0.000   
+##     odds2             0.453    0.084    5.377    0.000   
+##     radioact         -0.328    0.115   -2.865    0.004   
+##     viruses          -0.504    0.190   -2.657    0.008   
 ## 
 ## VARIANCES:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   
 ##     bigbangrev        0.123                              
-##     boyorgrl          0.217                              
+##     boyorgrl          0.209                              
 ##     condrift          0.131                              
 ##     earthsun          0.178                              
 ##     electron          0.194                              
 ##     evolvedrev        0.138                              
-##     expdesgn          0.188                              
-##     hotcore           0.136                              
-##     lasers            0.150                              
-##     LSFact            0.084                              
-##     odds1             0.102                              
-##     odds2             0.159                              
-##     PFact             0.098                              
-##     radioact          0.159                              
-##     viruses           0.169                              
+##     expdesgn          0.191                              
+##     hotcore           0.135                              
+##     lasers            0.152                              
+##     LSFact            0.032                              
+##     odds1             0.105                              
+##     odds2             0.160                              
+##     PFact             0.034                              
+##     radioact          0.160                              
+##     viruses           0.164                              
 ##     YEW               0.090                              
 ## 
 ## COVARIANCES:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   
 ##   odds1 ~~                                               
-##     odds2             0.022                              
+##     odds2             0.024                              
 ##   PFact ~~                                               
-##     YEW              -0.047                              
-##     LSFact            0.071                              
+##     YEW              -0.027                              
+##     LSFact            0.025                              
 ##   YEW ~~                                                 
-##     LSFact           -0.030</code></pre>
+##     LSFact           -0.018</code></pre>
 </div>
 <div id="correlation-matrix" class="section level3">
 <h3>Correlation Matrix</h3>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>corr <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="st">lasers ~~ hotcore + earthsun + electron + radioact +  condrift + bigbangrev + evolvedrev + viruses + boyorgrl + expdesgn + odds1 + odds2 </span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="st">hotcore ~~ + earthsun + electron + radioact +  condrift + bigbangrev + evolvedrev + viruses + boyorgrl + expdesgn + odds1 + odds2</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="st">earthsun ~~ electron + radioact +  condrift + bigbangrev + evolvedrev + viruses + boyorgrl + expdesgn + odds1 + odds2</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="st">electron ~~ radioact +  condrift + bigbangrev + evolvedrev + viruses + boyorgrl + expdesgn + odds1 + odds2 </span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="st">radioact ~~ condrift + bigbangrev + evolvedrev + viruses + boyorgrl + expdesgn + odds1 + odds2</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="st">condrift ~~ bigbangrev + evolvedrev + viruses + boyorgrl + expdesgn + odds1 + odds2 </span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="st">bigbangrev ~~ evolvedrev + viruses + boyorgrl + expdesgn + odds1 + odds2 </span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="st">evolvedrev ~~ viruses + boyorgrl + expdesgn + odds1 + odds2 </span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="st">viruses ~~ boyorgrl + expdesgn + odds1 + odds2</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="st">boyorgrl ~~ expdesgn + odds1 + odds2</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="st">expdesgn ~~ odds1 + odds2</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="st">odds1 ~~ odds2</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>ordered  <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;expdesgn&quot;</span>, <span class="st">&quot;odds1&quot;</span>, <span class="st">&quot;odds2&quot;</span>, <span class="st">&quot;earthsun&quot;</span>,</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;viruses&quot;</span>, <span class="st">&quot;condrift&quot;</span>,<span class="st">&quot;radioact&quot;</span>,</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;hotcore&quot;</span>, <span class="st">&quot;boyorgrl&quot;</span>, <span class="st">&quot;electron&quot;</span>, </span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;lasers&quot;</span>,<span class="st">&quot;evolvedrev&quot;</span>, <span class="st">&quot;bigbangrev&quot;</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>fit.lav <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  corr,</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> roos,</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">ordered =</span> ordered,</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">&quot;WLSMV&quot;</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>lavaan<span class="sc">::</span><span class="fu">summary</span>(fit.lav, <span class="at">fit =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">rsq =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>corr <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="st">lasers ~~ hotcore + earthsun + electron + radioact +  condrift + bigbangrev + evolvedrev + viruses + boyorgrl + expdesgn + odds1 + odds2 </span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="st">hotcore ~~ + earthsun + electron + radioact +  condrift + bigbangrev + evolvedrev + viruses + boyorgrl + expdesgn + odds1 + odds2</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="st">earthsun ~~ electron + radioact +  condrift + bigbangrev + evolvedrev + viruses + boyorgrl + expdesgn + odds1 + odds2</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="st">electron ~~ radioact +  condrift + bigbangrev + evolvedrev + viruses + boyorgrl + expdesgn + odds1 + odds2 </span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="st">radioact ~~ condrift + bigbangrev + evolvedrev + viruses + boyorgrl + expdesgn + odds1 + odds2</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="st">condrift ~~ bigbangrev + evolvedrev + viruses + boyorgrl + expdesgn + odds1 + odds2 </span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="st">bigbangrev ~~ evolvedrev + viruses + boyorgrl + expdesgn + odds1 + odds2 </span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="st">evolvedrev ~~ viruses + boyorgrl + expdesgn + odds1 + odds2 </span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st">viruses ~~ boyorgrl + expdesgn + odds1 + odds2</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">boyorgrl ~~ expdesgn + odds1 + odds2</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="st">expdesgn ~~ odds1 + odds2</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="st">odds1 ~~ odds2</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>ordered  <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;expdesgn&quot;</span>, <span class="st">&quot;odds1&quot;</span>, <span class="st">&quot;odds2&quot;</span>, <span class="st">&quot;earthsun&quot;</span>,</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;viruses&quot;</span>, <span class="st">&quot;condrift&quot;</span>,<span class="st">&quot;radioact&quot;</span>,</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;hotcore&quot;</span>, <span class="st">&quot;boyorgrl&quot;</span>, <span class="st">&quot;electron&quot;</span>, </span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;lasers&quot;</span>,<span class="st">&quot;evolvedrev&quot;</span>, <span class="st">&quot;bigbangrev&quot;</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>fit.lav <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  corr,</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> roos,</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">ordered =</span> ordered,</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">&quot;WLSMV&quot;</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>lavaan<span class="sc">::</span><span class="fu">summary</span>(fit.lav, <span class="at">fit =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">rsq =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <pre><code>## Warning in parameterEstimates(object, ci = ci, standardized = standardized, :
 ## lavaan WARNING: rsquare = TRUE, but there are no dependent variables</code></pre>
 <pre><code>## lavaan 0.6.14 ended normally after 23 iterations
@@ -725,33 +745,33 @@ Variables</a></li>
 <h2>Observed Exogeneous Variables</h2>
 <p>Modify Roos’ model by adding the following exogenous observed
 variables: education, age, sex, and race.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ExogenX <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="st">PFact  =~ lasers + hotcore + earthsun + electron + radioact +  condrift </span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="st">YEW    =~ bigbangrev + evolvedrev + condrift    </span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="st">LSFact =~ viruses + boyorgrl + expdesgn + odds1 + odds2  </span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="st">odds1 ~~ odds2</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="st"> </span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="st">PFact  ~ race_other + race_black + female + married + age + educ</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="st">YEW    ~ race_other + race_black + female + married + age + educ</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="st">LSFact ~ race_other + race_black + female + married + age + educ</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>ordered  <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;expdesgn&quot;</span>, <span class="st">&quot;odds1&quot;</span>, <span class="st">&quot;odds2&quot;</span>, <span class="st">&quot;earthsun&quot;</span>,</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;viruses&quot;</span>, <span class="st">&quot;condrift&quot;</span>,<span class="st">&quot;radioact&quot;</span>,</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;hotcore&quot;</span>, <span class="st">&quot;boyorgrl&quot;</span>, <span class="st">&quot;electron&quot;</span>, </span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;lasers&quot;</span>,<span class="st">&quot;evolvedrev&quot;</span>, <span class="st">&quot;bigbangrev&quot;</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co"># lavaan</span></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>fit.lav <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  ExogenX,</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> roos,</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">ordered =</span> ordered,</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">&quot;WLSMV&quot;</span></span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>lavaan<span class="sc">::</span><span class="fu">summary</span>(fit.lav, <span class="at">fit =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">rsq =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<pre><code>## lavaan 0.6.14 ended normally after 58 iterations
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ExogenX <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="st">PFact  =~ hotcore + earthsun + electron + radioact + lasers + condrift </span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="st">YEW    =~ bigbangrev + evolvedrev + condrift    </span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="st">LSFact =~ boyorgrl + viruses + expdesgn + odds1 + odds2</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="st">    </span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="st">odds1 ~~ odds2</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="st"> </span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="st">PFact  ~ educ + age + female + race_black + race_other + married</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="st">YEW    ~ educ + age + female + race_black + race_other + married</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="st">LSFact ~ educ + age + female + race_black + race_other + married</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>ordered  <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;expdesgn&quot;</span>, <span class="st">&quot;odds1&quot;</span>, <span class="st">&quot;odds2&quot;</span>, <span class="st">&quot;earthsun&quot;</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;viruses&quot;</span>, <span class="st">&quot;condrift&quot;</span>,<span class="st">&quot;radioact&quot;</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;hotcore&quot;</span>, <span class="st">&quot;boyorgrl&quot;</span>, <span class="st">&quot;electron&quot;</span>, </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;lasers&quot;</span>,<span class="st">&quot;evolvedrev&quot;</span>, <span class="st">&quot;bigbangrev&quot;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co"># lavaan</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>fit.lav <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">sem</span>(</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  ExogenX,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> roos,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">ordered =</span> ordered,</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">&quot;WLSMV&quot;</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>lavaan<span class="sc">::</span><span class="fu">summary</span>(fit.lav, <span class="at">fit =</span> <span class="cn">TRUE</span>, <span class="at">standardized =</span> <span class="cn">TRUE</span>, <span class="at">rsq =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## lavaan 0.6.14 ended normally after 74 iterations
 ## 
 ##   Estimator                                       DWLS
 ##   Optimization method                           NLMINB
@@ -810,69 +830,69 @@ variables: education, age, sex, and race.</p>
 ## Latent Variables:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   PFact =~                                                              
-##     lasers            1.000                               0.922    0.795
-##     hotcore           0.702    0.068   10.312    0.000    0.648    0.599
-##     earthsun          0.790    0.065   12.153    0.000    0.729    0.661
-##     electron          0.689    0.063   10.845    0.000    0.635    0.589
-##     radioact          0.792    0.066   11.934    0.000    0.730    0.662
-##     condrift          0.439    0.084    5.223    0.000    0.405    0.375
+##     hotcore           1.000                               0.648    0.599
+##     earthsun          1.125    0.114    9.833    0.000    0.729    0.661
+##     electron          0.981    0.108    9.107    0.000    0.635    0.589
+##     radioact          1.128    0.115    9.773    0.000    0.730    0.662
+##     lasers            1.424    0.138   10.312    0.000    0.922    0.795
+##     condrift          0.625    0.124    5.055    0.000    0.405    0.375
 ##   YEW =~                                                                
 ##     bigbangrev        1.000                               0.889    0.832
 ##     evolvedrev        0.941    0.105    8.992    0.000    0.837    0.788
 ##     condrift         -0.412    0.096   -4.304    0.000   -0.367   -0.340
 ##   LSFact =~                                                             
-##     viruses           1.000                               0.838    0.735
-##     boyorgrl          0.479    0.068    7.012    0.000    0.402    0.389
-##     expdesgn          0.744    0.073   10.161    0.000    0.624    0.578
-##     odds1             0.709    0.092    7.709    0.000    0.594    0.554
-##     odds2             0.467    0.079    5.927    0.000    0.392    0.379
+##     boyorgrl          1.000                               0.402    0.389
+##     viruses           2.086    0.297    7.012    0.000    0.838    0.735
+##     expdesgn          1.552    0.250    6.216    0.000    0.624    0.578
+##     odds1             1.478    0.265    5.581    0.000    0.594    0.554
+##     odds2             0.974    0.203    4.801    0.000    0.392    0.379
 ## 
 ## Regressions:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##   PFact ~                                                               
-##     race_other       -0.569    0.131   -4.341    0.000   -0.617   -0.167
-##     race_black       -0.663    0.097   -6.845    0.000   -0.719   -0.253
-##     female           -0.595    0.076   -7.852    0.000   -0.645   -0.315
-##     married          -0.034    0.069   -0.487    0.626   -0.037   -0.018
-##     age              -0.014    0.002   -6.872    0.000   -0.016   -0.271
-##     educ              0.109    0.013    8.343    0.000    0.118    0.340
+##     educ              0.076    0.011    7.262    0.000    0.118    0.340
+##     age              -0.010    0.002   -6.392    0.000   -0.016   -0.271
+##     female           -0.418    0.059   -7.035    0.000   -0.645   -0.315
+##     race_black       -0.465    0.074   -6.298    0.000   -0.719   -0.253
+##     race_other       -0.399    0.094   -4.265    0.000   -0.617   -0.167
+##     married          -0.024    0.049   -0.487    0.626   -0.037   -0.018
 ##   YEW ~                                                                 
-##     race_other       -0.132    0.140   -0.942    0.346   -0.149   -0.040
-##     race_black        0.421    0.113    3.713    0.000    0.474    0.167
-##     female            0.309    0.080    3.875    0.000    0.348    0.170
-##     married           0.244    0.079    3.101    0.002    0.274    0.137
-##     age               0.004    0.002    1.732    0.083    0.005    0.079
 ##     educ             -0.091    0.014   -6.437    0.000   -0.103   -0.295
+##     age               0.004    0.002    1.732    0.083    0.005    0.079
+##     female            0.309    0.080    3.875    0.000    0.348    0.170
+##     race_black        0.421    0.113    3.713    0.000    0.474    0.167
+##     race_other       -0.132    0.140   -0.942    0.346   -0.149   -0.040
+##     married           0.244    0.079    3.101    0.002    0.274    0.137
 ##   LSFact ~                                                              
-##     race_other       -0.605    0.136   -4.464    0.000   -0.722   -0.196
-##     race_black       -0.681    0.103   -6.637    0.000   -0.812   -0.286
-##     female            0.159    0.073    2.177    0.029    0.190    0.093
-##     married           0.097    0.072    1.339    0.181    0.116    0.058
-##     age              -0.010    0.002   -4.518    0.000   -0.011   -0.198
-##     educ              0.138    0.013   10.524    0.000    0.165    0.475
+##     educ              0.066    0.010    6.410    0.000    0.165    0.475
+##     age              -0.005    0.001   -3.921    0.000   -0.011   -0.198
+##     female            0.076    0.036    2.095    0.036    0.190    0.093
+##     race_black       -0.327    0.064   -5.070    0.000   -0.812   -0.286
+##     race_other       -0.290    0.075   -3.887    0.000   -0.722   -0.196
+##     married           0.047    0.035    1.342    0.179    0.116    0.058
 ## 
 ## Covariances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
 ##  .odds1 ~~                                                              
 ##    .odds2             0.251    0.068    3.667    0.000    0.251    0.294
 ##  .PFact ~~                                                              
-##    .YEW              -0.230    0.037   -6.281    0.000   -0.403   -0.403
-##    .LSFact            0.346    0.036    9.724    0.000    0.768    0.768
+##    .YEW              -0.162    0.028   -5.825    0.000   -0.403   -0.403
+##    .LSFact            0.116    0.021    5.462    0.000    0.768    0.768
 ##  .YEW ~~                                                                
-##    .LSFact           -0.123    0.039   -3.144    0.002   -0.240   -0.240
+##    .LSFact           -0.059    0.020   -2.870    0.004   -0.240   -0.240
 ## 
 ## Intercepts:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .lasers            0.000                               0.000    0.000
 ##    .hotcore           0.000                               0.000    0.000
 ##    .earthsun          0.000                               0.000    0.000
 ##    .electron          0.000                               0.000    0.000
 ##    .radioact          0.000                               0.000    0.000
+##    .lasers            0.000                               0.000    0.000
 ##    .condrift          0.000                               0.000    0.000
 ##    .bigbangrev        0.000                               0.000    0.000
 ##    .evolvedrev        0.000                               0.000    0.000
-##    .viruses           0.000                               0.000    0.000
 ##    .boyorgrl          0.000                               0.000    0.000
+##    .viruses           0.000                               0.000    0.000
 ##    .expdesgn          0.000                               0.000    0.000
 ##    .odds1             0.000                               0.000    0.000
 ##    .odds2             0.000                               0.000    0.000
@@ -882,67 +902,67 @@ variables: education, age, sex, and race.</p>
 ## 
 ## Thresholds:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##     lasers|t1         0.212    0.257    0.826    0.409    0.212    0.183
 ##     hotcore|t1       -1.106    0.313   -3.532    0.000   -1.106   -1.023
 ##     earthsun|t1       0.046    0.264    0.173    0.862    0.046    0.042
 ##     electron|t1       0.287    0.257    1.118    0.263    0.287    0.266
 ##     radioact|t1       0.570    0.288    1.977    0.048    0.570    0.517
+##     lasers|t1         0.212    0.257    0.826    0.409    0.212    0.183
 ##     condrift|t1      -0.609    0.325   -1.870    0.061   -0.609   -0.565
 ##     bigbangrev|t1    -1.417    0.294   -4.816    0.000   -1.417   -1.325
 ##     evolvedrev|t1    -0.775    0.264   -2.936    0.003   -0.775   -0.730
-##     viruses|t1        1.910    0.250    7.648    0.000    1.910    1.675
 ##     boyorgrl|t1       0.421    0.274    1.536    0.125    0.421    0.407
+##     viruses|t1        1.910    0.250    7.648    0.000    1.910    1.675
 ##     expdesgn|t1       0.796    0.250    3.188    0.001    0.796    0.737
 ##     odds1|t1         -0.505    0.341   -1.480    0.139   -0.505   -0.470
 ##     odds2|t1         -0.481    0.297   -1.622    0.105   -0.481   -0.466
 ## 
 ## Variances:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##    .lasers            0.496                               0.496    0.368
 ##    .hotcore           0.751                               0.751    0.642
 ##    .earthsun          0.685                               0.685    0.563
 ##    .electron          0.761                               0.761    0.654
 ##    .radioact          0.684                               0.684    0.562
+##    .lasers            0.496                               0.496    0.368
 ##    .condrift          0.710                               0.710    0.611
 ##    .bigbangrev        0.353                               0.353    0.309
 ##    .evolvedrev        0.427                               0.427    0.378
-##    .viruses           0.598                               0.598    0.460
 ##    .boyorgrl          0.908                               0.908    0.849
+##    .viruses           0.598                               0.598    0.460
 ##    .expdesgn          0.778                               0.778    0.666
 ##    .odds1             0.798                               0.798    0.693
 ##    .odds2             0.912                               0.912    0.856
-##    .PFact             0.504    0.057    8.917    0.000    0.593    0.593
+##    .PFact             0.249    0.042    5.942    0.000    0.593    0.593
 ##    .YEW               0.647    0.085    7.606    0.000    0.818    0.818
-##    .LSFact            0.402    0.058    6.872    0.000    0.572    0.572
+##    .LSFact            0.092    0.027    3.461    0.001    0.572    0.572
 ## 
 ## Scales y*:
 ##                    Estimate  Std.Err  z-value  P(&gt;|z|)   Std.lv  Std.all
-##     lasers            1.000                               1.000    1.000
 ##     hotcore           1.000                               1.000    1.000
 ##     earthsun          1.000                               1.000    1.000
 ##     electron          1.000                               1.000    1.000
 ##     radioact          1.000                               1.000    1.000
+##     lasers            1.000                               1.000    1.000
 ##     condrift          1.000                               1.000    1.000
 ##     bigbangrev        1.000                               1.000    1.000
 ##     evolvedrev        1.000                               1.000    1.000
-##     viruses           1.000                               1.000    1.000
 ##     boyorgrl          1.000                               1.000    1.000
+##     viruses           1.000                               1.000    1.000
 ##     expdesgn          1.000                               1.000    1.000
 ##     odds1             1.000                               1.000    1.000
 ##     odds2             1.000                               1.000    1.000
 ## 
 ## R-Square:
 ##                    Estimate
-##     lasers            0.632
 ##     hotcore           0.358
 ##     earthsun          0.437
 ##     electron          0.346
 ##     radioact          0.438
+##     lasers            0.632
 ##     condrift          0.389
 ##     bigbangrev        0.691
 ##     evolvedrev        0.622
-##     viruses           0.540
 ##     boyorgrl          0.151
+##     viruses           0.540
 ##     expdesgn          0.334
 ##     odds1             0.307
 ##     odds2             0.144

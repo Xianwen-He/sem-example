@@ -17,15 +17,11 @@ output:
 roos <- read.csv("./roos.csv")
 
 CFAmodel <- '
-PFact  =~ lasers + hotcore + earthsun + electron + radioact +  condrift 
+PFact  =~ hotcore + earthsun + electron + radioact + lasers + condrift 
 YEW    =~ bigbangrev + evolvedrev + condrift    
-LSFact =~ viruses + boyorgrl + expdesgn + odds1 + odds2  
+LSFact =~ boyorgrl + viruses + expdesgn + odds1 + odds2   
 
 odds1 ~~ odds2
- 
-# PFact  ~ race_other + race_black + female + married + age + educ
-# YEW    ~ race_other + race_black + female + married + age + educ
-# LSFact ~ race_other + race_black + female + married + age + educ
 '
 ordered  <- c(
   "expdesgn", "odds1", "odds2", "earthsun",
@@ -44,8 +40,22 @@ fit.lav <- lavaan::sem(
   ordered = ordered,
   estimator = "WLSMV"
 )
-lavaan::summary(fit.lav, fit.measures = TRUE, rsquare = TRUE)
+(summ.lav <- lavaan::summary(fit.lav, fit.measures = TRUE, rsquare = TRUE))
 ```
+
+SE for $R^2$.
+```{r, warning=F, message=F}
+library(dplyr)
+
+rsq.mat <- summ.lav$pe %>% 
+  dplyr::filter(op=='r2') %>% 
+  dplyr::select(lhs, est) %>%
+  dplyr::mutate(SE = 2/sqrt(nrow(roos))*est*(1-est^2))
+colnames(rsq.mat) <- c('variable', 'R2', 'SE for R2')
+
+rsq.mat
+```
+
 
 Calculate the proportion in the lowest category.
 ```{r}
@@ -103,21 +113,22 @@ fit.lav <- lavaan::sem(
 )
 lavaan::summary(fit.lav, fit = TRUE, standardized = TRUE, rsq = TRUE)
 ```
+
 ## Observed Exogeneous Variables
 
 Modify Roos' model by adding the following exogenous observed variables: education, age, sex, and race.
 
 ```{r}
 ExogenX <- '
-PFact  =~ lasers + hotcore + earthsun + electron + radioact +  condrift 
+PFact  =~ hotcore + earthsun + electron + radioact + lasers + condrift 
 YEW    =~ bigbangrev + evolvedrev + condrift    
-LSFact =~ viruses + boyorgrl + expdesgn + odds1 + odds2  
+LSFact =~ boyorgrl + viruses + expdesgn + odds1 + odds2
 	
 odds1 ~~ odds2
  
-PFact  ~ race_other + race_black + female + married + age + educ
-YEW    ~ race_other + race_black + female + married + age + educ
-LSFact ~ race_other + race_black + female + married + age + educ
+PFact  ~ educ + age + female + race_black + race_other + married
+YEW    ~ educ + age + female + race_black + race_other + married
+LSFact ~ educ + age + female + race_black + race_other + married
 '
 ordered  <- c(
   "expdesgn", "odds1", "odds2", "earthsun",
